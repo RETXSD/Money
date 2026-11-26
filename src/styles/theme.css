@@ -285,6 +285,41 @@ a {
   text-align: center;
 }
 
+.sketch-radio-card {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 2.5px solid var(--color-ink);
+  border-radius: var(--radius-sketch-c);
+  box-shadow: 3px 3px 0 var(--color-ink);
+  cursor: pointer;
+}
+
+.sketch-radio-card:has(input:focus-visible) {
+  outline: 3px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+.profile-avatar {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2.5px solid var(--color-ink);
+  border-radius: 50%;
+  background: var(--color-blue);
+  box-shadow: 3px 3px 0 var(--color-ink);
+  object-fit: cover;
+}
+
+.profile-avatar-initial {
+  font-family: var(--font-heading);
+  font-size: 34px;
+}
+
 .color-label {
   margin: 4px 0;
   color: var(--color-ink);

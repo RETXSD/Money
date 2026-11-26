@@ -1,0 +1,88 @@
+export const DEFAULT_CATEGORIES = [
+  {
+    id: 'makan',
+    name: 'Makan',
+    icon: '🍜',
+    type: 'expense',
+    keywords: ['makan', 'sarapan', 'makan siang', 'makan malam', 'nasi', 'warteg'],
+  },
+  {
+    id: 'jajan',
+    name: 'Jajan',
+    icon: '🍪',
+    type: 'expense',
+    keywords: ['jajan', 'kopi', 'ngopi', 'boba', 'snack', 'gorengan'],
+  },
+  {
+    id: 'transport',
+    name: 'Transport',
+    icon: '🛵',
+    type: 'expense',
+    keywords: ['bensin', 'ojek', 'grab', 'gojek', 'parkir', 'tol', 'transport'],
+  },
+  {
+    id: 'belanja',
+    name: 'Belanja',
+    icon: '🛍️',
+    type: 'expense',
+    keywords: ['belanja', 'baju', 'sepatu', 'marketplace'],
+  },
+  {
+    id: 'tagihan',
+    name: 'Tagihan',
+    icon: '🧾',
+    type: 'expense',
+    keywords: ['tagihan', 'listrik', 'internet', 'pulsa', 'air'],
+  },
+  {
+    id: 'hiburan',
+    name: 'Hiburan',
+    icon: '🎟️',
+    type: 'expense',
+    keywords: ['hiburan', 'bioskop', 'film', 'game', 'konser'],
+  },
+  {
+    id: 'kesehatan',
+    name: 'Kesehatan',
+    icon: '🩺',
+    type: 'expense',
+    keywords: ['dokter', 'obat', 'klinik', 'kesehatan'],
+  },
+  {
+    id: 'lainnya-expense',
+    name: 'Lainnya',
+    icon: '✨',
+    type: 'expense',
+    keywords: [],
+  },
+  {
+    id: 'gaji',
+    name: 'Gaji',
+    icon: '💼',
+    type: 'income',
+    keywords: ['gaji', 'gajian', 'salary'],
+  },
+  {
+    id: 'bonus',
+    name: 'Bonus',
+    icon: '🎉',
+    type: 'income',
+    keywords: ['bonus', 'thr', 'insentif'],
+  },
+  {
+    id: 'lainnya-income',
+    name: 'Lainnya',
+    icon: '💰',
+    type: 'income',
+    keywords: [],
+  },
+];
+
+export const SUGGESTED_CATEGORIES = [
+  { name: 'Perawatan diri', icon: '🧴', type: 'expense', keywords: [] },
+  { name: 'Langganan', icon: '📱', type: 'expense', keywords: [] },
+  { name: 'Hobi', icon: '🎨', type: 'expense', keywords: [] },
+  { name: 'Donasi', icon: '💛', type: 'expense', keywords: [] },
+  { name: 'Hewan peliharaan', icon: '🐾', type: 'expense', keywords: [] },
+  { name: 'Pendidikan', icon: '📚', type: 'expense', keywords: [] },
+];

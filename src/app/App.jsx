@@ -1,4 +1,6 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from './providers/useAuth.js';
+import { useProfile } from '../features/auth/hooks/useProfile.js';
 import { DoodleIcon } from '../shared/components/DoodleIcon.jsx';
 import { SketchButton } from '../shared/components/SketchButton.jsx';
 
@@ -12,6 +14,8 @@ const navigation = [
 export function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { profile } = useProfile(user?.uid);
   const isDesign = location.pathname === '/design';
 
   if (isDesign) return <Outlet />;
@@ -28,7 +32,15 @@ export function App() {
         <div className="header-actions">
           <span className="header-caption">dompet lebih tenang</span>
           <NavLink aria-label="Buka profil" className="avatar-link" to="/profile">
-            A
+            {profile?.photoURL ? (
+              <img
+                alt=""
+                className="h-full w-full rounded-full object-cover"
+                src={profile.photoURL}
+              />
+            ) : (
+              profile?.displayName?.trim().charAt(0).toUpperCase() || 'A'
+            )}
           </NavLink>
         </div>
       </header>
