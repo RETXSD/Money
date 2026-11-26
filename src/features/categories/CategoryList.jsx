@@ -3,7 +3,7 @@ import { SketchCard } from '../../shared/components/SketchCard.jsx';
 
 export function CategoryList({ categories, onEdit, onDelete }) {
   return (
-    <div className="grid gap-3">
+    <div className="category-list-grid grid gap-3">
       {categories.map((category) => (
         <SketchCard
           className="flex flex-wrap items-center justify-between gap-3 p-4"

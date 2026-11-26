@@ -83,7 +83,7 @@ export function DebtsPage() {
             {debts.error || people.error || categories.error}
           </p>
         ) : visibleDebts.length ? (
-          <div className="grid gap-3">
+          <div className="debt-card-grid grid gap-3">
             {visibleDebts.map((debt) => (
               <DebtCard
                 debt={debt}

@@ -19,31 +19,41 @@ export function DashboardPage() {
 
   return (
     <>
-      <div className="page-grid pb-44 md:pb-40">
-        <header>
+      <div className="page-grid dashboard-layout pb-44 md:pb-40">
+        <header className="dashboard-heading">
           <SketchBadge variant="info">Dompet harianmu</SketchBadge>
           <h1 className="page-heading mt-3">{getGreeting(profile, new Date())}</h1>
           <p className="page-kicker">Pelan-pelan, kita bikin uangmu lebih gampang dipahami.</p>
         </header>
 
-        <SafeToSpendCard summary={safeToSpend} />
+        <div className="dashboard-safe">
+          <SafeToSpendCard summary={safeToSpend} />
+        </div>
 
-        <BudgetSummary compact summary={budgetSummary} />
+        <div className="dashboard-budget">
+          <BudgetSummary compact summary={budgetSummary} />
+        </div>
 
-        <DashboardUpcoming summary={safeToSpend} />
-        {budgetSummary.loading ? (
-          <p role="status">Memuat transaksi terbaru…</p>
-        ) : budgetSummary.error ? (
-          <p className="text-red-dark m-0" role="alert">
-            {budgetSummary.error}
-          </p>
-        ) : (
-          <RecentTransactions
-            categories={budgetSummary.categories}
-            transactions={budgetSummary.transactions}
-          />
-        )}
-        <NotificationPromptCard />
+        <div className="dashboard-upcoming">
+          <DashboardUpcoming summary={safeToSpend} />
+        </div>
+        <div className="dashboard-recent">
+          {budgetSummary.loading ? (
+            <p role="status">Memuat transaksi terbaru…</p>
+          ) : budgetSummary.error ? (
+            <p className="text-red-dark m-0" role="alert">
+              {budgetSummary.error}
+            </p>
+          ) : (
+            <RecentTransactions
+              categories={budgetSummary.categories}
+              transactions={budgetSummary.transactions}
+            />
+          )}
+        </div>
+        <div className="dashboard-notification">
+          <NotificationPromptCard />
+        </div>
       </div>
       <QuickAddDock
         budgetSummary={budgetSummary}

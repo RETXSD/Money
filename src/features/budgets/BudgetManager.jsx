@@ -57,39 +57,41 @@ export function BudgetManager({ categories, budgets }) {
           {error}
         </p>
       ) : null}
-      {expenseCategories.map((category) => {
-        const limit = limitByCategory.get(category.id);
-        return (
-          <SketchCard className="p-4" key={category.id}>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h3 className="m-0 text-xl font-bold">
-                  {category.icon} {category.name}
-                </h3>
-                <p className="mt-1 mb-0 text-sm">
-                  {Number.isSafeInteger(limit) ? formatRupiah(limit) : 'Belum dianggarkan'}
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <SketchButton
-                  onClick={() => {
-                    setError('');
-                    setSelected(category);
-                  }}
-                  variant={Number.isSafeInteger(limit) ? 'secondary' : 'primary'}
-                >
-                  {Number.isSafeInteger(limit) ? 'Ubah batas' : 'Tambah batas'}
-                </SketchButton>
-                {Number.isSafeInteger(limit) ? (
-                  <SketchButton onClick={() => setDeleting(category)} variant="danger">
-                    Hapus
+      <div className="budget-category-grid grid gap-3">
+        {expenseCategories.map((category) => {
+          const limit = limitByCategory.get(category.id);
+          return (
+            <SketchCard className="p-4" key={category.id}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="m-0 text-xl font-bold">
+                    {category.icon} {category.name}
+                  </h3>
+                  <p className="mt-1 mb-0 text-sm">
+                    {Number.isSafeInteger(limit) ? formatRupiah(limit) : 'Belum dianggarkan'}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <SketchButton
+                    onClick={() => {
+                      setError('');
+                      setSelected(category);
+                    }}
+                    variant={Number.isSafeInteger(limit) ? 'secondary' : 'primary'}
+                  >
+                    {Number.isSafeInteger(limit) ? 'Ubah batas' : 'Tambah batas'}
                   </SketchButton>
-                ) : null}
+                  {Number.isSafeInteger(limit) ? (
+                    <SketchButton onClick={() => setDeleting(category)} variant="danger">
+                      Hapus
+                    </SketchButton>
+                  ) : null}
+                </div>
               </div>
-            </div>
-          </SketchCard>
-        );
-      })}
+            </SketchCard>
+          );
+        })}
+      </div>
 
       <SketchModal
         onClose={() => (saving ? null : setSelected(null))}

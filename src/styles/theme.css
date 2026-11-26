@@ -272,6 +272,11 @@ a {
   min-width: 0;
 }
 
+.settings-shortcuts {
+  display: grid;
+  gap: 20px;
+}
+
 .sketch-card {
   min-width: 0;
 }
@@ -535,6 +540,46 @@ a {
 
   .login-card {
     padding: 22px 18px;
+  }
+}
+
+@media (min-width: 960px) {
+  .dashboard-layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: start;
+  }
+
+  .dashboard-heading,
+  .dashboard-safe,
+  .dashboard-recent,
+  .dashboard-notification {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard-budget,
+  .dashboard-upcoming {
+    min-width: 0;
+    align-self: stretch;
+  }
+
+  .dashboard-upcoming > .page-grid > .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .settings-shortcuts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-shortcuts > .sketch-card {
+    height: 100%;
+  }
+
+  .category-list-grid,
+  .budget-progress-grid:not(.budget-progress-compact),
+  .budget-category-grid,
+  .fixed-bill-grid,
+  .debt-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

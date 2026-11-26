@@ -24,7 +24,7 @@ export function BudgetProgressList({ progress, compact = false }) {
   }
 
   return (
-    <div className="grid gap-3">
+    <div className={`budget-progress-grid grid gap-3${compact ? ' budget-progress-compact' : ''}`}>
       {progress.map((item) => (
         <SketchCard className="p-4" key={item.category.id}>
           <div className="flex flex-wrap items-start justify-between gap-3">

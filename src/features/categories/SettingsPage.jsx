@@ -40,25 +40,27 @@ export function SettingsPage() {
         <h1 className="page-heading mt-3">Pengaturan</h1>
         <p className="page-kicker">Sesuaikan cara MTRCK mengatur dompetmu.</p>
       </header>
-      <SketchCard>
-        <h2 className="showcase-title">Kategori</h2>
-        <p className="mt-0">Atur kategori pemasukan dan pengeluaran yang kamu pakai.</p>
-        <SketchButton as={Link} className="no-underline" to="/settings/categories">
-          Kelola kategori
-        </SketchButton>
-      </SketchCard>
-      <SketchCard>
-        <h2 className="showcase-title">Pengingat harian</h2>
-        <p className="mt-0">Atur waktu pengingat dan pilih apakah nominal ditampilkan.</p>
-        <SketchButton
-          as={Link}
-          className="no-underline"
-          to="/settings/notifications"
-          variant="secondary"
-        >
-          Atur notifikasi
-        </SketchButton>
-      </SketchCard>
+      <div className="settings-shortcuts">
+        <SketchCard>
+          <h2 className="showcase-title">Kategori</h2>
+          <p className="mt-0">Atur kategori pemasukan dan pengeluaran yang kamu pakai.</p>
+          <SketchButton as={Link} className="no-underline" to="/settings/categories">
+            Kelola kategori
+          </SketchButton>
+        </SketchCard>
+        <SketchCard>
+          <h2 className="showcase-title">Pengingat harian</h2>
+          <p className="mt-0">Atur waktu pengingat dan pilih apakah nominal ditampilkan.</p>
+          <SketchButton
+            as={Link}
+            className="no-underline"
+            to="/settings/notifications"
+            variant="secondary"
+          >
+            Atur notifikasi
+          </SketchButton>
+        </SketchCard>
+      </div>
       <SketchCard>
         <h2 className="showcase-title">Siklus gajian</h2>
         {settings.loading ? (

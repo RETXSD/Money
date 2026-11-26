@@ -101,20 +101,22 @@ export function FixedBillsManager({ paydayDay }) {
           {bills.error}
         </p>
       ) : bills.data.length ? (
-        bills.data.map((bill) => (
-          <FixedBillCard
-            bill={bill}
-            key={bill.id}
-            onDelete={() => setDeleting(bill)}
-            onEdit={() => {
-              setError('');
-              setSelected(bill);
-            }}
-            onMarkPaid={() => markPaid(bill)}
-            paid={bill.paidCycleKey === cycle.key}
-            saving={saving}
-          />
-        ))
+        <div className="fixed-bill-grid grid gap-3">
+          {bills.data.map((bill) => (
+            <FixedBillCard
+              bill={bill}
+              key={bill.id}
+              onDelete={() => setDeleting(bill)}
+              onEdit={() => {
+                setError('');
+                setSelected(bill);
+              }}
+              onMarkPaid={() => markPaid(bill)}
+              paid={bill.paidCycleKey === cycle.key}
+              saving={saving}
+            />
+          ))}
+        </div>
       ) : (
         <SketchCard>
           <p className="m-0">
