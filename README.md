@@ -9,7 +9,7 @@ MTRCK is a mobile-first Indonesian money tracker. The first scaffold milestone s
 3. Start the local app with `npm run dev`.
 4. Open `/design` in development to review the UI primitives.
 
-The app uses Firebase project `mtrck-13d5d`. Authentication, mandatory onboarding, profile editing, categories, transaction history, and natural-language quick add with editable preview and keyword learning are implemented. Budgets, safe-to-spend, debts, and notifications are being added in later milestones.
+The app uses Firebase project `mtrck-13d5d`. Authentication, mandatory onboarding, profile editing, categories, transaction history, natural-language quick add, and per-category budgets are implemented. Safe-to-spend, debt tracking, hosting setup, and notifications are being added in later milestones.
 
 ## Commands
 

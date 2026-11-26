@@ -3,6 +3,7 @@ import { useAuth } from '../../app/providers/useAuth.js';
 import { useProfile } from '../auth/hooks/useProfile.js';
 import { getGreeting } from '../auth/greeting.js';
 import { QuickAddDock } from '../quick-add/QuickAddDock.jsx';
+import { BudgetSummary } from '../budgets/BudgetSummary.jsx';
 import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
@@ -36,6 +37,8 @@ export function DashboardPage() {
             <SketchButton variant="secondary">Atur dompet</SketchButton>
           </Link>
         </SketchCard>
+
+        <BudgetSummary compact uid={user.uid} />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <SketchCard>

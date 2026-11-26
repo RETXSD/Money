@@ -10,11 +10,12 @@ import { SettingsPage } from '../features/categories/SettingsPage.jsx';
 import { TransactionsPage } from '../features/transactions/TransactionsPage.jsx';
 import { DesignPage } from '../features/design/DesignPage.jsx';
 import { DashboardPage } from '../features/dashboard/DashboardPage.jsx';
+import { BudgetPage } from '../features/budgets/BudgetPage.jsx';
 
 const appRoutes = [
   { index: true, element: <DashboardPage /> },
   { path: 'transactions', element: <TransactionsPage /> },
-  { path: 'budgets', element: <PlaceholderPage page="Anggaran" /> },
+  { path: 'budgets', element: <BudgetPage /> },
   { path: 'debts', element: <PlaceholderPage page="Utang & piutang" /> },
   { path: 'debts/:id', element: <PlaceholderPage page="Detail utang" /> },
   { path: 'profile', element: <ProfilePage /> },
