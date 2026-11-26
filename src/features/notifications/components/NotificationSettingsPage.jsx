@@ -103,7 +103,7 @@ export function NotificationSettingsPage() {
         </div>
         {NOTIFICATION_SLOTS.map((slot) => (
           <fieldset
-            className="rounded-sketch-c border-ink grid gap-3 border-[2.5px] p-4"
+            className="sketch-fieldset grid gap-3 p-4"
             key={slot}
           >
             <legend className="px-2 font-bold">Pengingat {slotLabels[slot]}</legend>

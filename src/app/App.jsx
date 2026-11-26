@@ -52,7 +52,7 @@ export function App() {
             <NavLink
               key={item.to}
               aria-label={item.label}
-              className={({ isActive }) => `nav-item${isActive ? 'nav-item-active' : ''}`}
+              className={({ isActive }) => `nav-item${isActive ? ' nav-item-active' : ''}`}
               end={item.end}
               to={item.to}
             >

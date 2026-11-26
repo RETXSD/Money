@@ -71,10 +71,10 @@ a {
   z-index: 10;
   top: 0;
   display: flex;
-  height: 72px;
+  height: 68px;
   align-items: center;
   justify-content: space-between;
-  padding: 0 max(20px, calc((100vw - 900px) / 2));
+  padding: 0 max(16px, calc((100vw - 900px) / 2));
   border-bottom: 2.5px solid var(--color-ink);
   background: rgb(255 253 247 / 94%);
   backdrop-filter: blur(8px);
@@ -129,9 +129,9 @@ a {
 
 .app-main {
   width: min(100% - 32px, 900px);
-  min-height: calc(100vh - 158px);
+  min-height: calc(100vh - 154px);
   margin: 0 auto;
-  padding: 30px 0 44px;
+  padding: 30px 0 52px;
 }
 
 .bottom-nav {
@@ -152,16 +152,21 @@ a {
 
 .nav-item {
   display: flex;
-  min-width: 56px;
-  min-height: 52px;
+  min-width: 58px;
+  min-height: 54px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1px;
+  padding: 4px 6px;
   border-radius: var(--radius-sketch-b);
   color: var(--color-ink);
   font-size: 13px;
   text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
 }
 
 .nav-item svg {
@@ -170,15 +175,45 @@ a {
 }
 
 .nav-item-active {
-  color: var(--color-blue-dark);
+  border: 2px solid var(--color-ink);
+  background: var(--color-yellow);
+  box-shadow: 2px 2px 0 var(--color-ink);
+  color: var(--color-ink);
 }
 
-.nav-item-active::after {
-  width: 22px;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--color-yellow);
-  content: '';
+.nav-item:hover {
+  transform: translateY(-1px);
+}
+
+.nav-item:active {
+  transform: translateY(1px);
+}
+
+.sketch-fieldset {
+  min-width: 0;
+  border: 2.5px solid var(--color-ink);
+  border-radius: var(--radius-sketch-c);
+}
+
+.sketch-button {
+  box-shadow: var(--shadow-sketch);
+  transition:
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+.sketch-button:hover:not(:disabled) {
+  box-shadow: 5px 5px 0 var(--color-ink);
+  transform: translate(-1px, -1px);
+}
+
+.sketch-button:active:not(:disabled) {
+  box-shadow: 2px 2px 0 var(--color-ink);
+  transform: translate(2px, 2px);
+}
+
+.sketch-button:disabled {
+  box-shadow: 2px 2px 0 var(--color-ink);
 }
 
 .nav-settings {
@@ -204,11 +239,12 @@ a {
 .page-kicker {
   margin: 0 0 24px;
   color: rgb(26 26 26 / 75%);
+  line-height: 1.4;
 }
 
 .page-grid {
   display: grid;
-  gap: 18px;
+  gap: 20px;
 }
 
 .safe-amount {
@@ -220,10 +256,52 @@ a {
   position: fixed;
   z-index: 30;
   right: 16px;
-  bottom: calc(84px + env(safe-area-inset-bottom));
-  left: 16px;
-  width: min(100% - 32px, 760px);
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  left: max(12px, env(safe-area-inset-left));
+  width: min(100% - 24px, 760px);
   margin: 0 auto;
+}
+
+.quick-add-dock .sketch-card {
+  background-color: rgb(255 255 255 / 97%);
+  padding: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.quick-add-dock input {
+  min-width: 0;
+}
+
+.sketch-card {
+  min-width: 0;
+}
+
+.page-heading,
+.swatch {
+  overflow-wrap: anywhere;
+}
+
+.login-card {
+  box-shadow: 6px 6px 0 var(--color-ink);
+}
+
+.sketch-radio-card,
+.avatar-link {
+  transition:
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+.sketch-radio-card:hover,
+.avatar-link:hover {
+  box-shadow: 5px 5px 0 var(--color-ink);
+  transform: translate(-1px, -1px);
+}
+
+.sketch-radio-card:active,
+.avatar-link:active {
+  box-shadow: 2px 2px 0 var(--color-ink);
+  transform: translate(1px, 1px);
 }
 
 .showcase-grid {
@@ -377,28 +455,30 @@ a {
   }
 
   .app-main {
-    min-height: calc(100vh - 72px);
+    width: min(100%, 1100px);
+    min-height: calc(100vh - 68px);
+    margin: 0 auto;
+    padding: 32px 32px 180px 132px;
+  }
+
+  .app-header {
+    padding-right: max(32px, calc((100vw - 1100px) / 2 + 32px));
+    padding-left: max(132px, calc((100vw - 1100px) / 2 + 132px));
   }
 
   .bottom-nav {
-    top: 72px;
+    top: 68px;
     right: auto;
     bottom: 0;
     left: max(0px, calc((100vw - 1100px) / 2));
-    width: 92px;
+    width: 100px;
     min-height: auto;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 12px;
     padding: 24px 8px;
     border-top: 0;
     border-right: 2.5px solid var(--color-ink);
-  }
-
-  .app-main {
-    width: min(100% - 150px, 850px);
-    margin-right: max(30px, calc((100vw - 960px) / 2));
-    margin-left: max(125px, calc((100vw - 960px) / 2 + 105px));
   }
 
   .header-caption {
@@ -406,10 +486,10 @@ a {
   }
 
   .quick-add-dock {
-    right: max(30px, calc((100vw - 960px) / 2));
+    right: max(32px, calc((100vw - 1100px) / 2 + 32px));
     bottom: 16px;
-    left: max(125px, calc((100vw - 960px) / 2 + 105px));
-    width: min(720px, calc(100vw - 180px));
+    left: max(132px, calc((100vw - 1100px) / 2 + 132px));
+    width: min(740px, calc(100vw - 180px));
     margin: 0 auto;
   }
 }
@@ -427,6 +507,8 @@ a {
 
   .nav-item {
     min-width: 50px;
+    padding-right: 3px;
+    padding-left: 3px;
   }
 
   .nav-settings {
@@ -439,6 +521,20 @@ a {
 
   .showcase-grid {
     grid-template-columns: 1fr;
+  }
+
+  .app-main {
+    width: min(100% - 24px, 900px);
+    padding-top: 24px;
+  }
+
+  .login-page {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .login-card {
+    padding: 22px 18px;
   }
 }
 
@@ -459,5 +555,25 @@ a {
     100% {
       transform: scale(1) rotate(0);
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .sketch-button,
+  .sketch-radio-card,
+  .avatar-link {
+    transition: none;
+  }
+
+  .nav-item:hover,
+  .nav-item:active,
+  .sketch-button:hover:not(:disabled),
+  .sketch-button:active:not(:disabled),
+  .sketch-radio-card:hover,
+  .sketch-radio-card:active,
+  .avatar-link:hover,
+  .avatar-link:active {
+    transform: none;
   }
 }
