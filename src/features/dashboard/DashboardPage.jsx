@@ -4,12 +4,12 @@ import { getGreeting } from '../auth/greeting.js';
 import { QuickAddDock } from '../quick-add/QuickAddDock.jsx';
 import { BudgetSummary } from '../budgets/BudgetSummary.jsx';
 import { useBudgetSummary } from '../budgets/hooks/useBudgetSummary.js';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SafeToSpendCard } from '../safe-to-spend/SafeToSpendCard.jsx';
 import { useSafeToSpend } from '../safe-to-spend/hooks/useSafeToSpend.js';
 import { DashboardUpcoming } from './DashboardUpcoming.jsx';
 import { RecentTransactions } from './RecentTransactions.jsx';
 import { NotificationPromptCard } from '../notifications/components/NotificationPromptCard.jsx';
+import { PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
 
 export function DashboardPage() {
   const { user } = useAuth();
@@ -19,12 +19,13 @@ export function DashboardPage() {
 
   return (
     <>
-      <div className="page-grid dashboard-layout pb-44 md:pb-40">
-        <header className="dashboard-heading">
-          <SketchBadge variant="info">Dompet harianmu</SketchBadge>
-          <h1 className="page-heading mt-3">{getGreeting(profile, new Date())}</h1>
-          <p className="page-kicker">Pelan-pelan, kita bikin uangmu lebih gampang dipahami.</p>
-        </header>
+      <PageContainer className="dashboard-layout">
+        <PageHeader
+          badge="Ringkasan harian"
+          className="dashboard-heading"
+          description="Saldo, anggaran, dan transaksi dalam satu ringkasan."
+          title={getGreeting(profile, new Date())}
+        />
 
         <div className="dashboard-safe">
           <SafeToSpendCard summary={safeToSpend} />
@@ -41,7 +42,7 @@ export function DashboardPage() {
           {budgetSummary.loading ? (
             <p role="status">Memuat transaksi terbaru…</p>
           ) : budgetSummary.error ? (
-            <p className="text-red-dark m-0" role="alert">
+            <p className="text-red-dark" role="alert">
               {budgetSummary.error}
             </p>
           ) : (
@@ -54,7 +55,7 @@ export function DashboardPage() {
         <div className="dashboard-notification">
           <NotificationPromptCard />
         </div>
-      </div>
+      </PageContainer>
       <QuickAddDock
         budgetSummary={budgetSummary}
         categories={budgetSummary.categories}

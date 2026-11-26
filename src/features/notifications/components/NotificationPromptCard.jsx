@@ -44,9 +44,9 @@ export function NotificationPromptCard() {
   }
 
   return (
-    <SketchCard className="grid gap-3">
+    <SketchCard>
       {showIosHint ? (
-        <p className="m-0" role="note">
+        <p role="note">
           Di Safari iPhone atau iPad, tambahkan MTRCK ke Layar Utama agar pengingat web dapat
           diterima.
         </p>
@@ -54,21 +54,22 @@ export function NotificationPromptCard() {
       {(!data.enabled && !dismissed) || showPermissionHelp ? (
         <>
           <div>
-            <h2 className="showcase-title mb-1">Aktifkan pengingat harian?</h2>
+            <h2 className="showcase-title">Aktifkan pengingat harian?</h2>
             {showPermissionHelp ? (
-              <p className="m-0">
-                Izin notifikasi ditolak. Ubah izin MTRCK di pengaturan browser untuk mengaktifkannya
+              <p>
+                Notifikasi MTRCK diblokir browser. Izinkan notifikasi di pengaturan browser untuk
+                mengaktifkannya
                 lagi.
               </p>
             ) : (
-              <p className="m-0">
+              <p>
                 Pilih pengingat pagi, siang, dan malam supaya catatan uangmu tetap terjaga.
               </p>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
             {permission !== 'denied' ? (
-              <SketchButton disabled={actionLoading} onClick={turnOn}>
+              <SketchButton disabled={actionLoading} onClick={turnOn} variant="secondary">
                 {actionLoading ? 'Mengaktifkan…' : 'Aktifkan'}
               </SketchButton>
             ) : null}
@@ -85,7 +86,7 @@ export function NotificationPromptCard() {
             </SketchButton>
           </div>
           {error ? (
-            <p className="text-red-dark m-0" role="alert">
+            <p className="text-red-dark" role="alert">
               {error}
             </p>
           ) : null}

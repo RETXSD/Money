@@ -1,6 +1,7 @@
 import { useAuth } from '../../app/providers/useAuth.js';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { PageContainer, PageHeader, Section, Stack } from '../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../shared/constants/copy.js';
 import { BudgetManager } from './BudgetManager.jsx';
 import { BudgetProgressList } from './BudgetProgressList.jsx';
 import { BudgetWarning } from './BudgetWarning.jsx';
@@ -12,44 +13,40 @@ export function BudgetPage() {
   const summary = useBudgetSummary(user.uid);
 
   return (
-    <div className="page-grid">
-      <header>
-        <SketchBadge variant="info">Siklus gajian {summary.cycle.key}</SketchBadge>
-        <h1 className="page-heading mt-3">Anggaran</h1>
-        <p className="page-kicker">
-          Bagi uangmu ke kategori, lalu pantau sisanya sepanjang siklus.
-        </p>
-      </header>
+    <PageContainer>
+      <PageHeader
+        badge="Siklus gajian"
+        description="Atur batas dan pantau sisa setiap kategori."
+        title={APP_COPY.pageTitles.budgets}
+      />
 
       {summary.loading ? (
         <p role="status">Memuat anggaran…</p>
       ) : summary.error ? (
         <SketchCard role="alert">
-          <p className="text-red-dark m-0">{summary.error}</p>
+          <p className="text-red-dark">{summary.error}</p>
         </SketchCard>
       ) : (
         <>
           <BudgetWarning warning={summary.allocationWarning} />
           <SketchCard>
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="mt-0 mb-1 font-bold">Dana tersedia</p>
-                <p className="font-heading m-0 text-3xl">{formatRupiah(summary.balance)}</p>
-              </div>
-              <p className="m-0 text-sm">Saldo dasar ditambah pemasukan, dikurangi pengeluaran.</p>
-            </div>
+            <Stack gap={8}>
+              <p className="font-bold">Dana tersedia</p>
+              <p className="safe-amount font-heading">{formatRupiah(summary.balance)}</p>
+              <p className="text-sm">Saldo dasar dan transaksi pada siklus ini.</p>
+            </Stack>
           </SketchCard>
-          <section className="page-grid">
-            <h2 className="showcase-title mb-0">Pemakaian siklus ini</h2>
+          <Section gap={16}>
+            <h2 className="showcase-title">Pemakaian siklus ini</h2>
             {summary.progress.length ? (
               <BudgetProgressList progress={summary.progress} />
             ) : (
-              <p className="m-0">Belum ada batas anggaran. Tambahkan batas di bawah.</p>
+              <p>Belum ada batas anggaran. Tambahkan batas di bawah.</p>
             )}
-          </section>
+          </Section>
           <BudgetManager budgets={summary.budgets} categories={summary.categories} />
         </>
       )}
-    </div>
+    </PageContainer>
   );
 }

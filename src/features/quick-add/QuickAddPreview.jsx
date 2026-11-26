@@ -76,8 +76,8 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
         />
 
         {preview.debt ? (
-          <SketchCard className="p-3" sticky>
-            <h3 className="m-0 font-bold">Rincian utang</h3>
+          <SketchCard sticky>
+            <h3 className="font-bold">Rincian utang</h3>
             <SketchInput
               label="Nama orang"
               onChange={(event) =>
@@ -96,7 +96,7 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
               ]}
               value={preview.debt.direction}
             />
-            <label className="mt-2 flex min-h-11 items-center gap-3">
+            <label className="flex min-h-11 items-center gap-3">
               <input
                 checked={preview.debt.affectsCash}
                 onChange={(event) =>
@@ -106,7 +106,7 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
               />
               Uang tunai berpindah sekarang
             </label>
-            <p className="mt-1 mb-0">
+            <p>
               {preview.debt.repayment ? 'Pembayaran' : 'Catatan'}{' '}
               {preview.debt.direction === 'owed_to_me' ? 'piutang dari' : 'utang ke'}{' '}
               <strong>{preview.debt.personName}</strong>.{' '}
@@ -114,7 +114,7 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
                 ? 'Memengaruhi saldo tunai.'
                 : 'Tidak mengubah saldo tunai.'}
             </p>
-            <p className="mt-2 mb-0 text-sm">
+            <p className="text-sm">
               Periksa nama dan arah utang sebelum menyimpan. Pembayaran akan memperbarui saldo dan
               riwayat orang ini.
             </p>
@@ -136,7 +136,7 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
         ) : null}
 
         {error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {error}
           </p>
         ) : null}

@@ -56,7 +56,7 @@ export function FixedBillForm({ initial, saving, error, onCancel, onSave }) {
         </label>
       ) : null}
       {error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}

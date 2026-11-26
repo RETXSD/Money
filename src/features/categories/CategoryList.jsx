@@ -1,19 +1,20 @@
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Grid } from '../../shared/components/Layout.jsx';
 
 export function CategoryList({ categories, onEdit, onDelete }) {
   return (
-    <div className="category-list-grid grid gap-3">
+    <Grid className="category-list-grid" gap={16}>
       {categories.map((category) => (
         <SketchCard
-          className="flex flex-wrap items-center justify-between gap-3 p-4"
+          className="flex flex-wrap items-center justify-between gap-3"
           key={category.id}
         >
           <div>
-            <h3 className="font-heading m-0 text-2xl">
+            <h3 className="font-heading text-2xl">
               {category.icon} {category.name}
             </h3>
-            <p className="text-ink/75 m-0 text-sm">
+            <p className="text-ink text-sm">
               {category.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}
               {category.keywords?.length ? ` · ${category.keywords.join(', ')}` : ''}
             </p>
@@ -36,6 +37,6 @@ export function CategoryList({ categories, onEdit, onDelete }) {
           </div>
         </SketchCard>
       ))}
-    </div>
+    </Grid>
   );
 }

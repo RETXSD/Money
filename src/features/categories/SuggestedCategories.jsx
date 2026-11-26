@@ -8,7 +8,7 @@ export function SuggestedCategories({ categories, saving, onAdd }) {
   return (
     <SketchCard>
       <h2 className="showcase-title">Ide kategori</h2>
-      <p className="mt-0">Saran yang sama untuk semua orang. Tambahkan dengan sekali tekan.</p>
+      <p>Tambahkan kategori yang belum ada.</p>
       <div className="flex flex-wrap gap-2">
         {SUGGESTED_CATEGORIES.map((suggestion) => {
           const exists = existingNames.has(suggestion.name.toLowerCase());

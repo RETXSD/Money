@@ -8,7 +8,7 @@ export function SketchBadge({ children, variant = 'info' }) {
 
   return (
     <span
-      className={`rounded-sketch-b border-ink text-ink inline-flex min-h-8 items-center border-2 px-3 py-1 text-sm font-bold ${variantClass}`}
+      className={`sketch-badge badge-${variant} ${variantClass}`}
     >
       {children}
     </span>
@@ -20,8 +20,8 @@ export function SketchProgress({ value, label = 'Kemajuan' }) {
   const status = safeValue < 75 ? 'green' : safeValue <= 100 ? 'yellow' : 'red';
 
   return (
-    <div className="grid gap-1.5">
-      <div className="flex justify-between gap-3 text-sm">
+    <div className="layout-stack layout-gap-8">
+      <div className="layout-row layout-gap-8 text-sm">
         <span>{label}</span>
         <span>{Math.round(safeValue)}%</span>
       </div>
@@ -30,7 +30,7 @@ export function SketchProgress({ value, label = 'Kemajuan' }) {
         aria-valuemax={100}
         aria-valuemin={0}
         aria-valuenow={safeValue}
-        className="rounded-sketch-b border-ink bg-card h-5 overflow-hidden border-[2.5px]"
+        className="sketch-progress-track"
         role="progressbar"
       >
         <div className={`h-full sketch-progress-${status}`} style={{ width: `${safeValue}%` }} />

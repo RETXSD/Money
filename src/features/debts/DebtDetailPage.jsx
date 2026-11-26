@@ -8,6 +8,7 @@ import { PaymentHistory } from './PaymentHistory.jsx';
 import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Grid, PageContainer, PageHeader, Section } from '../../shared/components/Layout.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
 import { buildDebtWhatsAppUrl } from './whatsapp.js';
 
@@ -31,22 +32,35 @@ export function DebtDetailPage() {
     return result.success;
   }
 
-  if (record.loading || people.loading) return <p role="status">Memuat rincian utang…</p>;
+  if (record.loading || people.loading)
+    return (
+      <PageContainer>
+        <PageHeader badge="Utang" description="Rincian saldo dan pembayaran." title="Rincian utang" />
+        <p role="status">Memuat rincian utang…</p>
+      </PageContainer>
+    );
   if (record.error || people.error) {
     return (
-      <p className="text-red-dark m-0" role="alert">
-        {record.error || people.error}
-      </p>
+      <PageContainer>
+        <PageHeader badge="Utang" description="Rincian saldo dan pembayaran." title="Rincian utang" />
+        <SketchCard role="alert" className="text-red-dark">
+          {record.error || people.error}
+        </SketchCard>
+      </PageContainer>
     );
   }
   if (!record.debt) {
     return (
-      <SketchCard>
-        <h1 className="showcase-title">Catatan utang tidak ditemukan</h1>
+      <PageContainer>
+        <PageHeader
+          badge="Utang"
+          description="Rincian saldo dan pembayaran."
+          title="Catatan tidak ditemukan"
+        />
         <SketchButton as={Link} className="no-underline" to="/debts" variant="secondary">
           Kembali
         </SketchButton>
-      </SketchCard>
+      </PageContainer>
     );
   }
 
@@ -62,41 +76,40 @@ export function DebtDetailPage() {
   });
 
   return (
-    <div className="page-grid">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <SketchBadge variant={debt.direction === 'owed_to_me' ? 'success' : 'danger'}>
-            {debt.direction === 'owed_to_me' ? 'Piutang' : 'Utang saya'}
-          </SketchBadge>
-          <h1 className="page-heading mt-3">{person?.name || 'Orang tidak ditemukan'}</h1>
-        </div>
-        <SketchButton as={Link} className="no-underline" to="/debts" variant="secondary">
-          Kembali
-        </SketchButton>
-      </header>
+    <PageContainer>
+      <PageHeader
+        actions={
+          <SketchButton as={Link} className="no-underline" to="/debts" variant="secondary">
+            Kembali
+          </SketchButton>
+        }
+        badge={debt.direction === 'owed_to_me' ? 'Piutang' : 'Utang saya'}
+        badgeVariant={debt.direction === 'owed_to_me' ? 'success' : 'danger'}
+        description="Rincian saldo dan pembayaran."
+        title={person?.name || 'Orang tidak ditemukan'}
+      />
 
       <SketchCard>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <Grid className="sm:grid-cols-2" gap={16}>
           <div>
-            <p className="m-0">Jumlah awal</p>
+            <p>Jumlah awal</p>
             <strong className="text-2xl">{formatRupiah(debt.amount)}</strong>
           </div>
           <div>
-            <p className="m-0">Sudah dibayar</p>
+            <p>Sudah dibayar</p>
             <strong className="text-2xl">{formatRupiah(debt.paidAmount)}</strong>
           </div>
           <div>
-            <p className="m-0">Sisa</p>
+            <p>Sisa</p>
             <strong className="text-2xl">{formatRupiah(remaining)}</strong>
           </div>
           <div>
-            <p className="m-0">Jatuh tempo</p>
+            <p>Jatuh tempo</p>
             <strong>{formatDate(debt.dueDate)}</strong>
           </div>
-        </div>
-        {debt.note ? <p className="mt-4 mb-0">{debt.note}</p> : null}
+        </Grid>
+        {debt.note ? <p>{debt.note}</p> : null}
         <SketchButton
-          className="mt-4"
           onClick={() => window.open(shareUrl, '_blank', 'noopener,noreferrer')}
           variant="secondary"
         >
@@ -118,15 +131,15 @@ export function DebtDetailPage() {
         <SketchBadge variant="success">Utang ini sudah lunas</SketchBadge>
       )}
 
-      <section className="page-grid">
-        <h2 className="showcase-title mb-0">Riwayat pembayaran</h2>
+      <Section gap={16}>
+        <h2 className="showcase-title">Riwayat pembayaran</h2>
         {record.error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {record.error}
           </p>
         ) : null}
         <PaymentHistory payments={record.payments} />
-      </section>
-    </div>
+      </Section>
+    </PageContainer>
   );
 }

@@ -30,9 +30,9 @@ export function TransactionDialogs({
         />
       </SketchModal>
       <SketchModal onClose={onCancelDelete} open={Boolean(deleting)} title="Hapus transaksi?">
-        <p className="mt-0">Catatan ini akan dihapus dari riwayatmu.</p>
+        <p>Catatan ini akan dihapus dari riwayatmu.</p>
         {error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {error}
           </p>
         ) : null}

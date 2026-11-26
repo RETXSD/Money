@@ -2,6 +2,7 @@ import { formatRupiah } from '../../shared/utils/money.js';
 import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Grid, Stack } from '../../shared/components/Layout.jsx';
 
 function formatDayLabel(date) {
   return new Intl.DateTimeFormat('id-ID', {
@@ -27,26 +28,26 @@ export function TransactionList({ transactions, categories, onEdit, onDelete }) 
   const groups = groupByDay(transactions);
 
   return (
-    <div className="grid gap-5">
+    <Grid gap={16}>
       {groups.map((group) => (
-        <section className="grid gap-3" key={group[0].id}>
-          <h2 className="font-heading m-0 text-2xl">{formatDayLabel(group[0].date)}</h2>
+        <Stack as="section" gap={16} key={group[0].id}>
+          <h2 className="font-heading text-2xl">{formatDayLabel(group[0].date)}</h2>
           {group.map((transaction) => {
             const category = categoryById.get(transaction.categoryId);
             const isIncome = transaction.type === 'income';
             return (
-              <SketchCard className="p-4" key={transaction.id}>
+              <SketchCard key={transaction.id}>
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <div className="mb-1 flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <SketchBadge variant={isIncome ? 'success' : 'danger'}>
                         {isIncome ? 'Masuk' : 'Keluar'}
                       </SketchBadge>
-                      <span className="text-ink/75 text-sm">
+                      <span className="text-ink text-sm">
                         {category ? `${category.icon} ${category.name}` : 'Tanpa kategori'}
                       </span>
                     </div>
-                    <p className="m-0 truncate">{transaction.note || 'Tanpa catatan'}</p>
+                    <p className="truncate">{transaction.note || 'Tanpa catatan'}</p>
                   </div>
                   <strong
                     className="text-xl"
@@ -56,7 +57,7 @@ export function TransactionList({ transactions, categories, onEdit, onDelete }) 
                     {formatRupiah(transaction.amount)}
                   </strong>
                 </div>
-                <div className="mt-3 flex justify-end gap-2">
+                <div className="flex justify-end gap-2">
                   <SketchButton
                     aria-label={`Ubah transaksi ${transaction.note || 'tanpa catatan'}`}
                     onClick={() => onEdit(transaction)}
@@ -75,8 +76,8 @@ export function TransactionList({ transactions, categories, onEdit, onDelete }) 
               </SketchCard>
             );
           })}
-        </section>
+        </Stack>
       ))}
-    </div>
+    </Grid>
   );
 }

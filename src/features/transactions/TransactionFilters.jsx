@@ -13,7 +13,7 @@ export function TransactionFilters({
   onCategoryChange,
 }) {
   return (
-    <SketchCard className="grid gap-3 sm:grid-cols-3">
+    <SketchCard className="grid gap-4 sm:grid-cols-3">
       <SketchSelect
         label="Periode"
         onChange={(event) => onPeriodChange(event.target.value)}
@@ -31,7 +31,7 @@ export function TransactionFilters({
           value={month}
         />
       ) : (
-        <div className="text-ink/75 grid content-end text-sm">
+        <div className="text-ink grid content-end text-sm">
           Siklus {formatLocalDate(range.start)} – {formatLocalDate(range.end)}
         </div>
       )}

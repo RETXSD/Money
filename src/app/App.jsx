@@ -1,19 +1,19 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from './providers/useAuth.js';
 import { useProfile } from '../features/auth/hooks/useProfile.js';
 import { DoodleIcon } from '../shared/components/DoodleIcon.jsx';
-import { SketchButton } from '../shared/components/SketchButton.jsx';
 import { NotificationsProvider } from '../features/notifications/components/NotificationsProvider.jsx';
+import { APP_COPY } from '../shared/constants/copy.js';
 
 const navigation = [
-  { to: '/', label: 'Beranda', icon: 'home', end: true },
-  { to: '/transactions', label: 'Catatan', icon: 'receipt' },
-  { to: '/budgets', label: 'Budget', icon: 'chart' },
-  { to: '/debts', label: 'Teman', icon: 'people' },
+  { to: '/', label: APP_COPY.navigation.home, icon: 'home', end: true },
+  { to: '/transactions', label: APP_COPY.navigation.transactions, icon: 'receipt' },
+  { to: '/budgets', label: APP_COPY.navigation.budgets, icon: 'chart' },
+  { to: '/debts', label: APP_COPY.navigation.debts, icon: 'people' },
+  { to: '/settings', label: APP_COPY.navigation.settings, icon: 'settings' },
 ];
 
 export function App() {
-  const navigate = useNavigate();
   const { user } = useAuth();
   const { profile } = useProfile(user?.uid);
 
@@ -28,7 +28,6 @@ export function App() {
             <span>MTRCK</span>
           </NavLink>
           <div className="header-actions">
-            <span className="header-caption">dompet lebih tenang</span>
             <NavLink aria-label="Buka profil" className="avatar-link" to="/profile">
               {profile?.photoURL ? (
                 <img
@@ -60,14 +59,6 @@ export function App() {
               <span>{item.label}</span>
             </NavLink>
           ))}
-          <SketchButton
-            aria-label="Buka pengaturan"
-            className="nav-settings"
-            onClick={() => navigate('/settings')}
-            variant="secondary"
-          >
-            <DoodleIcon name="settings" />
-          </SketchButton>
         </nav>
       </div>
     </NotificationsProvider>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { SketchBadge } from '../../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../../shared/components/SketchCard.jsx';
 import { SketchSelect } from '../../../shared/components/SketchField.jsx';
+import { PageContainer, PageHeader, Stack } from '../../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../../shared/constants/copy.js';
 import { NOTIFICATION_SLOTS } from '../../../shared/domain/constants.js';
 import { useNotifications } from '../hooks/useNotifications.js';
 
@@ -57,53 +58,70 @@ export function NotificationSettingsPage() {
     setSaved(succeeded);
   }
 
-  if (loading) return <p role="status">Memuat pengaturan pengingat…</p>;
+  if (loading)
+    return (
+      <PageContainer>
+        <PageHeader
+          badge="Pengingat pribadi"
+          description="Pilih jadwal dan informasi yang ditampilkan."
+          title={APP_COPY.pageTitles.notifications}
+        />
+        <p role="status">Memuat pengaturan pengingat…</p>
+      </PageContainer>
+    );
   if (error && !data)
     return (
-      <p className="text-red-dark m-0" role="alert">
-        {error}
-      </p>
+      <PageContainer>
+        <PageHeader
+          badge="Pengingat pribadi"
+          description="Pilih jadwal dan informasi yang ditampilkan."
+          title={APP_COPY.pageTitles.notifications}
+        />
+        <SketchCard className="text-red-dark" role="alert">
+          {error}
+        </SketchCard>
+      </PageContainer>
     );
 
   return (
-    <div className="page-grid pb-24">
-      <header>
-        <SketchBadge variant="info">Pengingat pribadi</SketchBadge>
-        <h1 className="page-heading mt-3">Notifikasi</h1>
-        <p className="page-kicker">Atur waktu dan isi pengingat uang harianmu.</p>
-      </header>
+    <PageContainer>
+      <PageHeader
+        badge="Pengingat pribadi"
+        description="Pilih jadwal dan informasi yang ditampilkan."
+        title={APP_COPY.pageTitles.notifications}
+      />
 
-      <SketchCard className="grid gap-3">
-        <div>
-          <h2 className="showcase-title mb-1">Status pengingat</h2>
-          <p className="m-0">
+      <SketchCard>
+        <Stack gap={8}>
+          <h2 className="showcase-title">Status pengingat</h2>
+          <p>
             {data.enabled ? 'Pengingat aktif di perangkat ini.' : 'Pengingat belum aktif.'}
           </p>
-        </div>
+        </Stack>
         {data.enabled ? (
           <SketchButton disabled={actionLoading} onClick={disable} variant="danger">
             {actionLoading ? 'Mematikan…' : 'Matikan pengingat'}
           </SketchButton>
         ) : permission === 'denied' ? (
-          <p className="m-0" role="note">
-            Izin notifikasi ditolak. Buka pengaturan browser, izinkan notifikasi untuk MTRCK, lalu
-            kembali ke halaman ini.
+          <p role="note">
+            Notifikasi MTRCK diblokir browser. Izinkan notifikasi di pengaturan browser, lalu kembali
+            ke halaman ini.
           </p>
         ) : (
-          <SketchButton disabled={actionLoading} onClick={enable}>
+          <SketchButton disabled={actionLoading} onClick={enable} variant="secondary">
             {actionLoading ? 'Mengaktifkan…' : 'Aktifkan pengingat'}
           </SketchButton>
         )}
       </SketchCard>
 
-      <SketchCard as="form" className="grid gap-5" onSubmit={savePreferences}>
-        <div>
-          <h2 className="showcase-title mb-1">Jadwal harian</h2>
-          <p className="m-0">Setiap pengingat menggunakan jam lokal perangkatmu.</p>
-        </div>
+      <SketchCard as="form" className="layout-stack layout-gap-16" onSubmit={savePreferences}>
+        <Stack gap={8}>
+          <h2 className="showcase-title">Jadwal harian</h2>
+          <p>Setiap pengingat menggunakan jam lokal perangkatmu.</p>
+        </Stack>
         {NOTIFICATION_SLOTS.map((slot) => (
           <fieldset
-            className="sketch-fieldset grid gap-3 p-4"
+            className="sketch-fieldset layout-stack layout-gap-12"
             key={slot}
           >
             <legend className="px-2 font-bold">Pengingat {slotLabels[slot]}</legend>
@@ -134,7 +152,7 @@ export function NotificationSettingsPage() {
             }}
             type="checkbox"
           />
-          Sembunyikan nominal di notifikasi
+          Sembunyikan nominal di pengingat
         </label>
         <div className="flex flex-wrap items-center gap-3">
           <SketchButton disabled={actionLoading} type="submit">
@@ -143,7 +161,7 @@ export function NotificationSettingsPage() {
           {saved ? <span role="status">Pengaturan tersimpan.</span> : null}
         </div>
         {error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {error}
           </p>
         ) : null}
@@ -152,11 +170,11 @@ export function NotificationSettingsPage() {
       {isIosSafari() ? (
         <SketchCard>
           <h2 className="showcase-title">Gunakan dari Layar Utama</h2>
-          <p className="m-0">
+          <p>
             Di Safari iPhone atau iPad, tambahkan MTRCK ke Layar Utama untuk menerima pengingat web.
           </p>
         </SketchCard>
       ) : null}
-    </div>
+    </PageContainer>
   );
 }

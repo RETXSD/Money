@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useAuth } from '../../app/providers/useAuth.js';
 import { useCategories } from '../categories/hooks/useCategories.js';
 import { EmptyState } from '../../shared/components/EmptyState.jsx';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchTabs } from '../../shared/components/SketchTabs.jsx';
+import { Grid, PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../shared/constants/copy.js';
 import { useDebts } from './hooks/useDebts.js';
 import { usePeople } from './hooks/usePeople.js';
 import { useDebtActions } from './hooks/useDebtActions.js';
@@ -50,22 +51,20 @@ export function DebtsPage() {
 
   return (
     <>
-      <div className="page-grid">
-        <header className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <SketchBadge variant="info">Urusan bareng teman</SketchBadge>
-            <h1 className="page-heading mt-3">Utang & piutang</h1>
-            <p className="page-kicker mb-0">
-              Catat janji dengan jelas dan jaga saldo tetap akurat.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <SketchButton onClick={() => setDebtOpen(true)}>Tambah catatan</SketchButton>
-            <SketchButton onClick={() => setSplitOpen(true)} variant="secondary">
-              Bagi tagihan
-            </SketchButton>
-          </div>
-        </header>
+      <PageContainer>
+        <PageHeader
+          actions={
+            <>
+              <SketchButton onClick={() => setDebtOpen(true)}>Tambah catatan</SketchButton>
+              <SketchButton onClick={() => setSplitOpen(true)} variant="secondary">
+                Bagi tagihan
+              </SketchButton>
+            </>
+          }
+          badge="Catatan bersama"
+          description="Kelola utang, piutang, dan tagihan patungan."
+          title={APP_COPY.pageTitles.debts}
+        />
 
         <SketchTabs
           label="Jenis utang"
@@ -79,11 +78,11 @@ export function DebtsPage() {
         {debts.loading || people.loading || categories.loading ? (
           <p role="status">Memuat catatan utang…</p>
         ) : debts.error || people.error || categories.error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {debts.error || people.error || categories.error}
           </p>
         ) : visibleDebts.length ? (
-          <div className="debt-card-grid grid gap-3">
+          <Grid className="debt-card-grid" gap={16}>
             {visibleDebts.map((debt) => (
               <DebtCard
                 debt={debt}
@@ -92,7 +91,7 @@ export function DebtsPage() {
                 person={personById.get(debt.personId)}
               />
             ))}
-          </div>
+          </Grid>
         ) : (
           <EmptyState
             description={
@@ -103,10 +102,12 @@ export function DebtsPage() {
             icon="people"
             title={direction === 'owed_to_me' ? 'Belum ada piutang' : 'Belum ada utang'}
           >
-            <SketchButton onClick={() => setDebtOpen(true)}>Tambah catatan</SketchButton>
+            <SketchButton onClick={() => setDebtOpen(true)} variant="secondary">
+              Tambah catatan
+            </SketchButton>
           </EmptyState>
         )}
-      </div>
+      </PageContainer>
       <DebtDialogs
         categories={categories.data}
         debtError={actions.error}

@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useAuth } from '../../app/providers/useAuth.js';
 import { DEFAULT_PAYDAY_DAY } from '../../shared/constants/budget.js';
 import { EmptyState } from '../../shared/components/EmptyState.jsx';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../shared/constants/copy.js';
 import { formatLocalDate, getCycle } from '../../shared/utils/dates.js';
 import { createTransaction, deleteTransaction, updateTransaction } from './transactions.service.js';
 import { useTransactions } from './hooks/useTransactions.js';
@@ -83,15 +84,13 @@ export function TransactionsPage() {
   }
 
   return (
-    <div className="page-grid">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <SketchBadge variant="info">Catatan uang</SketchBadge>
-          <h1 className="page-heading mt-3">Transaksi</h1>
-          <p className="page-kicker mb-0">Pemasukan dan pengeluaran, satu per satu.</p>
-        </div>
-        <SketchButton onClick={openNewForm}>Tambah transaksi</SketchButton>
-      </header>
+    <PageContainer>
+      <PageHeader
+        actions={<SketchButton onClick={openNewForm}>Tambah transaksi</SketchButton>}
+        badge="Catatan uang"
+        description="Pemasukan dan pengeluaran dalam siklus gajian."
+        title={APP_COPY.pageTitles.transactions}
+      />
 
       <TransactionFilters
         categories={categories}
@@ -105,12 +104,12 @@ export function TransactionsPage() {
       />
 
       {categoriesError ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {categoriesError}
         </p>
       ) : null}
       {error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}
@@ -118,7 +117,7 @@ export function TransactionsPage() {
         <p role="status">Memuat transaksi…</p>
       ) : transactionsError ? (
         <SketchCard role="alert">
-          <p className="mt-0">{transactionsError}</p>
+          <p>{transactionsError}</p>
           <SketchButton onClick={() => window.location.reload()} variant="secondary">
             Coba muat ulang
           </SketchButton>
@@ -138,7 +137,9 @@ export function TransactionsPage() {
           description="Catat pemasukan atau pengeluaran pertamamu supaya ringkasan uang mulai terbentuk."
           title="Belum ada transaksi"
         >
-          <SketchButton onClick={openNewForm}>Tambah transaksi</SketchButton>
+          <SketchButton onClick={openNewForm} variant="secondary">
+            Tambah transaksi
+          </SketchButton>
         </EmptyState>
       )}
 
@@ -154,6 +155,6 @@ export function TransactionsPage() {
         onSave={saveTransaction}
         saving={saving}
       />
-    </div>
+    </PageContainer>
   );
 }

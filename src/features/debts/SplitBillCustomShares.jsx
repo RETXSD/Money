@@ -19,7 +19,7 @@ export function SplitBillCustomShares({
           value={shares[person.id] ?? null}
         />
       ))}
-      <p className="text-ink/75 m-0 text-sm">Semua bagian harus tepat sama dengan total tagihan.</p>
+      <p className="text-ink text-sm">Semua bagian harus tepat sama dengan total tagihan.</p>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { EmptyState } from '../../shared/components/EmptyState.jsx';
 import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Grid, Row, Section, Stack } from '../../shared/components/Layout.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
 
 function formatTransactionDate(date) {
@@ -14,36 +15,36 @@ export function RecentTransactions({ transactions, categories }) {
   const latest = transactions.slice(0, 5);
 
   return (
-    <section className="page-grid">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h2 className="showcase-title mb-0">Transaksi terbaru</h2>
-          <p className="mt-1 mb-0">Catatan dari siklus gajian yang sedang berjalan.</p>
-        </div>
+    <Section gap={16}>
+      <Row className="section-heading" gap={16}>
+        <Stack gap={4}>
+          <h2 className="showcase-title">Transaksi terbaru</h2>
+          <p>Catatan dari siklus gajian yang sedang berjalan.</p>
+        </Stack>
         <SketchButton as={Link} className="no-underline" to="/transactions" variant="secondary">
           Semua transaksi
         </SketchButton>
-      </header>
+      </Row>
       {latest.length ? (
-        <div className="grid gap-2">
+        <Grid className="transaction-summary-list" gap={16}>
           {latest.map((transaction) => {
             const income = transaction.type === 'income';
             const category = categoryById.get(transaction.categoryId);
             return (
-              <SketchCard className="p-3" key={transaction.id}>
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
+              <SketchCard key={transaction.id}>
+                <Row className="transaction-summary-row" gap={16}>
+                  <Stack className="transaction-summary-copy" gap={8}>
+                    <Row gap={8}>
                       <SketchBadge variant={income ? 'success' : 'danger'}>
                         {income ? 'Masuk' : 'Keluar'}
                       </SketchBadge>
                       <span className="text-sm">
                         {category ? `${category.icon} ${category.name}` : 'Tanpa kategori'}
                       </span>
-                    </div>
-                    <p className="mt-1 mb-0 truncate">{transaction.note || 'Tanpa catatan'}</p>
-                  </div>
-                  <div className="text-right">
+                    </Row>
+                    <p className="truncate">{transaction.note || 'Tanpa catatan'}</p>
+                  </Stack>
+                  <Stack className="transaction-summary-amount" gap={4}>
                     <strong className="block text-lg">
                       {income ? '+' : '−'}
                       {formatRupiah(transaction.amount)}
@@ -51,22 +52,22 @@ export function RecentTransactions({ transactions, categories }) {
                     <time className="text-sm" dateTime={transaction.date.toISOString()}>
                       {formatTransactionDate(transaction.date)}
                     </time>
-                  </div>
-                </div>
+                  </Stack>
+                </Row>
               </SketchCard>
             );
           })}
-        </div>
+        </Grid>
       ) : (
         <EmptyState
           description="Transaksi yang kamu catat akan tampil sebagai ringkasan siklus."
           title="Belum ada transaksi"
         >
-          <SketchButton as={Link} className="no-underline" to="/transactions">
+          <SketchButton as={Link} className="no-underline" to="/transactions" variant="secondary">
             Tambah transaksi
           </SketchButton>
         </EmptyState>
       )}
-    </section>
+    </Section>
   );
 }

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Row, Stack } from '../../shared/components/Layout.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
 
 function formatDueDate(date) {
@@ -13,8 +14,8 @@ export function SafeToSpendCard({ summary: { billsDue, error, loading, safe } })
   if (error) {
     return (
       <SketchCard role="alert">
-        <p className="text-red-dark m-0">{error}</p>
-        <SketchButton as={Link} className="mt-3 no-underline" to="/settings" variant="secondary">
+        <p className="text-red-dark">{error}</p>
+        <SketchButton as={Link} className="no-underline" to="/settings" variant="secondary">
           Periksa pengaturan
         </SketchButton>
       </SketchCard>
@@ -23,35 +24,35 @@ export function SafeToSpendCard({ summary: { billsDue, error, loading, safe } })
 
   const overspent = safe.remainingToday < 0;
   return (
-    <SketchCard className={overspent ? '!bg-red' : 'sketch-success'} sticky={!overspent}>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
+    <SketchCard className={overspent ? 'sketch-danger' : ''} sticky={!overspent}>
+      <Row className="safe-to-spend-header" gap={16}>
+        <Stack className="safe-to-spend-copy" gap={8}>
           <SketchBadge variant={overspent ? 'danger' : 'warning'}>Jatah hari ini</SketchBadge>
-          <p className="mt-3 mb-1 font-bold">
+          <p className="font-bold">
             {overspent ? 'Melewati jatah hari ini' : 'Jatah hari ini sisa'}
           </p>
-          <p className="safe-amount font-heading m-0 text-4xl leading-tight">
+          <p className="safe-amount font-heading">
             {formatRupiah(Math.abs(safe.remainingToday))}
           </p>
-          <p className="mt-2 mb-0">
+          <p>
             Batas harian {formatRupiah(safe.dailyAllowance)} · {safe.daysLeft} hari lagi menuju
             gajian.
           </p>
-        </div>
+        </Stack>
         <SketchButton as={Link} className="no-underline" to="/settings" variant="secondary">
           Atur
         </SketchButton>
-      </div>
+      </Row>
 
-      <div className="mt-4 grid gap-1 text-sm">
-        <p className="m-0">
+      <Stack className="safe-reservations text-sm" gap={8}>
+        <p>
           Disisihkan untuk tagihan: <strong>{formatRupiah(safe.remainingBills)}</strong>
         </p>
-        <p className="m-0">
+        <p>
           Disisihkan untuk utang jatuh tempo: <strong>{formatRupiah(safe.debtsDue)}</strong>
         </p>
         {billsDue.length ? (
-          <ul className="m-0 list-inside list-disc p-0">
+          <ul className="list-inside list-disc">
             {billsDue.slice(0, 3).map((bill) => (
               <li key={bill.id}>
                 {bill.name} · {formatRupiah(bill.amount)} · {formatDueDate(bill.dueDate)}
@@ -59,7 +60,7 @@ export function SafeToSpendCard({ summary: { billsDue, error, loading, safe } })
             ))}
           </ul>
         ) : null}
-      </div>
+      </Stack>
     </SketchCard>
   );
 }

@@ -4,6 +4,7 @@ import { useProfile } from './hooks/useProfile.js';
 import { resolveAuthRoute } from './routeGuard.js';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
 
 export function RouteGuard({ children, allowedRoutes }) {
   const { user, loading: authLoading, error: authError } = useAuth();
@@ -18,22 +19,32 @@ export function RouteGuard({ children, allowedRoutes }) {
 
   if (authError || profileError) {
     return (
-      <main className="mx-auto grid min-h-screen w-[min(100%-32px,600px)] place-items-center">
+      <PageContainer className="guard-page">
+        <PageHeader
+          badge="MTRCK"
+          description="Data dompet belum dapat dimuat."
+          title="Koneksi terputus"
+        />
         <SketchCard role="alert">
-          <p className="mt-0">{authError || profileError}</p>
+          <p>{authError || profileError}</p>
           <SketchButton onClick={() => window.location.reload()} variant="secondary">
             Coba muat ulang
           </SketchButton>
         </SketchCard>
-      </main>
+      </PageContainer>
     );
   }
 
   if (route === 'loading') {
     return (
-      <main className="grid min-h-screen place-items-center" role="status">
+      <PageContainer className="guard-page" role="status">
+        <PageHeader
+          badge="MTRCK"
+          description="Menyiapkan akun dan data uangmu."
+          title="Memuat dompet"
+        />
         Memuat dompetmu…
-      </main>
+      </PageContainer>
     );
   }
 

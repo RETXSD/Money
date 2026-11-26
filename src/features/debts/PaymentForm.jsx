@@ -38,12 +38,12 @@ export function PaymentForm({ remaining, saving, error, onSave }) {
         value={note}
       />
       {validationError || error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {validationError || error}
         </p>
       ) : null}
       {success ? (
-        <p className="text-green-dark m-0" role="status">
+        <p className="text-green-dark" role="status">
           {success}
         </p>
       ) : null}

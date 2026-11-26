@@ -4,6 +4,7 @@ import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
+import { Grid, Row, Section, Stack } from '../../shared/components/Layout.jsx';
 
 function formatDueDate(date) {
   return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long' }).format(date);
@@ -13,7 +14,7 @@ export function DashboardUpcoming({ summary }) {
   if (summary.loading) return <p role="status">Memuat tagihan dan utang…</p>;
   if (summary.error)
     return (
-      <p className="text-red-dark m-0" role="alert">
+      <p className="text-red-dark" role="alert">
         {summary.error}
       </p>
     );
@@ -26,22 +27,22 @@ export function DashboardUpcoming({ summary }) {
     .slice(0, 5);
 
   return (
-    <section className="page-grid">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h2 className="showcase-title mb-0">Jatuh tempo berikutnya</h2>
-          <p className="mt-1 mb-0">Tagihan dan janji pembayaran di siklus ini.</p>
-        </div>
+    <Section gap={16}>
+      <Row className="section-heading" gap={16}>
+        <Stack gap={4}>
+          <h2 className="showcase-title">Jatuh tempo berikutnya</h2>
+          <p>Tagihan dan janji pembayaran di siklus ini.</p>
+        </Stack>
         <SketchButton as={Link} className="no-underline" to="/debts" variant="secondary">
           Kelola utang
         </SketchButton>
-      </header>
+      </Row>
       {items.length ? (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <Grid className="upcoming-list" gap={16}>
           {items.map((item) => (
-            <SketchCard className="p-4" key={`${item.kind}-${item.id}`}>
-              <div className="flex items-start justify-between gap-3">
-                <div>
+            <SketchCard key={`${item.kind}-${item.id}`}>
+              <Row className="upcoming-heading" gap={12}>
+                <Stack className="upcoming-item-name" gap={8}>
                   <SketchBadge
                     variant={
                       item.kind === 'bill'
@@ -57,18 +58,18 @@ export function DashboardUpcoming({ summary }) {
                         ? 'Piutang'
                         : 'Utang'}
                   </SketchBadge>
-                  <h3 className="mt-2 mb-0 text-xl font-bold">
+                  <h3 className="text-lg font-bold">
                     {item.kind === 'bill' ? item.name : item.personName}
                   </h3>
-                </div>
+                </Stack>
                 <strong>{formatDueDate(item.dueDate)}</strong>
-              </div>
-              <p className="mt-2 mb-0 font-bold">
+              </Row>
+              <p className="font-bold">
                 {formatRupiah(item.kind === 'debt' ? item.amount - item.paidAmount : item.amount)}
               </p>
             </SketchCard>
           ))}
-        </div>
+        </Grid>
       ) : (
         <EmptyState
           description="Tagihan rutin atau utang dengan tanggal jatuh tempo akan muncul di sini."
@@ -76,6 +77,6 @@ export function DashboardUpcoming({ summary }) {
           title="Belum ada yang jatuh tempo"
         />
       )}
-    </section>
+    </Section>
   );
 }

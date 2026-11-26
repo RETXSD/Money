@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MoneyInput } from '../../shared/components/MoneyInput.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
+import { Grid } from '../../shared/components/Layout.jsx';
 import { SketchInput, SketchSelect } from '../../shared/components/SketchField.jsx';
 import { SketchTabs } from '../../shared/components/SketchTabs.jsx';
 import { formatLocalDate } from '../../shared/utils/dates.js';
@@ -51,7 +52,7 @@ export function DebtForm({ people, saving, error, onCancel, onSave }) {
         value={personId}
       />
       {!personId ? (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <Grid className="sm:grid-cols-2" gap={16}>
           <SketchInput
             autoComplete="name"
             label="Nama orang"
@@ -67,7 +68,7 @@ export function DebtForm({ people, saving, error, onCancel, onSave }) {
             type="tel"
             value={phone}
           />
-        </div>
+        </Grid>
       ) : null}
       <SketchTabs
         label="Arah utang"
@@ -96,7 +97,7 @@ export function DebtForm({ people, saving, error, onCancel, onSave }) {
         Uang tunai berpindah sekarang
       </label>
       {validationError || error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {validationError || error}
         </p>
       ) : null}

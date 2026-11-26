@@ -3,6 +3,7 @@ import { useAuth } from '../../app/providers/useAuth.js';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
 import { SketchModal } from '../../shared/components/SketchModal.jsx';
+import { Grid, Section } from '../../shared/components/Layout.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
 import { deleteCategoryBudget, saveCategoryBudget } from './budgets.service.js';
 import { BudgetForm } from './BudgetForm.jsx';
@@ -17,6 +18,9 @@ export function BudgetManager({ categories, budgets }) {
     .filter((category) => category.type === 'expense')
     .sort((left, right) => left.name.localeCompare(right.name, 'id'));
   const limitByCategory = new Map(budgets.map((budget) => [budget.categoryId, budget.limit]));
+  const firstUnbudgetedCategoryId = expenseCategories.find(
+    (category) => !Number.isSafeInteger(limitByCategory.get(category.id)),
+  )?.id;
 
   async function saveLimit(limit) {
     if (!selected) return;
@@ -47,27 +51,27 @@ export function BudgetManager({ categories, budgets }) {
   }
 
   return (
-    <section className="page-grid">
+    <Section gap={16}>
       <header>
-        <h2 className="showcase-title mb-0">Batas per kategori</h2>
-        <p className="mt-1 mb-0">Atur berapa rupiah yang ingin kamu sisihkan untuk tiap pos.</p>
+        <h2 className="showcase-title">Batas per kategori</h2>
+        <p>Atur berapa rupiah yang ingin kamu sisihkan untuk tiap pos.</p>
       </header>
       {error && !selected ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}
-      <div className="budget-category-grid grid gap-3">
+      <Grid className="budget-category-grid" gap={16}>
         {expenseCategories.map((category) => {
           const limit = limitByCategory.get(category.id);
           return (
-            <SketchCard className="p-4" key={category.id}>
+            <SketchCard key={category.id}>
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h3 className="m-0 text-xl font-bold">
+                  <h3 className="text-xl font-bold">
                     {category.icon} {category.name}
                   </h3>
-                  <p className="mt-1 mb-0 text-sm">
+                  <p className="text-sm">
                     {Number.isSafeInteger(limit) ? formatRupiah(limit) : 'Belum dianggarkan'}
                   </p>
                 </div>
@@ -77,7 +81,7 @@ export function BudgetManager({ categories, budgets }) {
                       setError('');
                       setSelected(category);
                     }}
-                    variant={Number.isSafeInteger(limit) ? 'secondary' : 'primary'}
+                    variant={category.id === firstUnbudgetedCategoryId ? 'primary' : 'secondary'}
                   >
                     {Number.isSafeInteger(limit) ? 'Ubah batas' : 'Tambah batas'}
                   </SketchButton>
@@ -91,7 +95,7 @@ export function BudgetManager({ categories, budgets }) {
             </SketchCard>
           );
         })}
-      </div>
+      </Grid>
 
       <SketchModal
         onClose={() => (saving ? null : setSelected(null))}
@@ -114,7 +118,7 @@ export function BudgetManager({ categories, budgets }) {
       <SketchModal onClose={() => setDeleting(null)} open={Boolean(deleting)} title="Hapus batas?">
         {deleting ? (
           <div className="field-stack">
-            <p className="m-0">
+            <p>
               Anggaran kategori <strong>{deleting.name}</strong> akan dihapus.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -128,6 +132,6 @@ export function BudgetManager({ categories, budgets }) {
           </div>
         ) : null}
       </SketchModal>
-    </section>
+    </Section>
   );
 }

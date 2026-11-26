@@ -16,11 +16,11 @@ export function BudgetForm({ category, initialLimit, saving, error, onCancel, on
   return (
     <form className="field-stack" onSubmit={submit}>
       <MoneyInput label="Batas anggaran (rupiah)" onChange={setLimit} required value={limit} />
-      <p className="text-ink/75 m-0 text-sm">
+      <p className="text-ink text-sm">
         Batas ini berlaku untuk siklus gajian yang sedang berjalan.
       </p>
       {error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}

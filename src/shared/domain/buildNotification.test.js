@@ -107,7 +107,7 @@ describe('buildNotification noon slot', () => {
       today,
     });
 
-    expect(result.body).toContain('Budget Jajan sudah 92%');
+    expect(result.body).toContain('Anggaran Jajan sudah 92%');
   });
 
   it('reminds the user to record a day with no transactions', () => {

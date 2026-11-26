@@ -73,7 +73,6 @@ export function TransactionForm({ categories, initial, saving, onCancel, onSave 
       <SketchInput
         label="Catatan"
         onChange={(event) => setNote(event.target.value)}
-        placeholder="Contoh: makan siang bareng teman"
         value={note}
       />
       <SketchInput
@@ -85,7 +84,7 @@ export function TransactionForm({ categories, initial, saving, onCancel, onSave 
         value={date}
       />
       {error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}

@@ -49,7 +49,7 @@ export function SketchModal({ open, onClose, title, children }) {
 
   return (
     <div
-      className="bg-ink/45 fixed inset-0 z-50 grid place-items-center overflow-y-auto p-5"
+      className="modal-backdrop"
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose?.();
       }}
@@ -58,14 +58,14 @@ export function SketchModal({ open, onClose, title, children }) {
       <SketchCard
         aria-labelledby={titleId}
         aria-modal="true"
-        className="w-full max-w-md"
+        className="modal-panel"
         ref={dialogRef}
         role="dialog"
         tabIndex={-1}
         as="div"
       >
-        <div className="mb-3 flex items-start justify-between gap-4">
-          <h2 className="font-heading m-0 text-3xl" id={titleId}>
+        <div className="modal-heading">
+          <h2 className="font-heading text-2xl" id={titleId}>
             {title}
           </h2>
           <SketchButton aria-label="Tutup dialog" onClick={onClose} variant="secondary">

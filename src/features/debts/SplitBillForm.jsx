@@ -57,7 +57,7 @@ export function SplitBillForm({ people, categories, saving, error, onCancel, onS
         options={[{ value: '', label: 'Pilih kategori' }, ...expenseCategories]}
         value={categoryId}
       />
-      <fieldset className="m-0 grid gap-2 border-0 p-0">
+      <fieldset className="grid gap-2">
         <legend className="font-bold">Pilih teman patungan</legend>
         {people.length ? (
           <div className="grid gap-1">
@@ -73,7 +73,7 @@ export function SplitBillForm({ people, categories, saving, error, onCancel, onS
             ))}
           </div>
         ) : (
-          <p className="m-0">Tambahkan teman lewat form utang sebelum membuat patungan.</p>
+          <p>Tambahkan teman lewat form utang sebelum membuat patungan.</p>
         )}
       </fieldset>
       <SketchTabs
@@ -97,7 +97,7 @@ export function SplitBillForm({ people, categories, saving, error, onCancel, onS
         />
       ) : null}
       {validationError || error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {validationError || error}
         </p>
       ) : null}

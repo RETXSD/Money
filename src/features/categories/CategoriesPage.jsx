@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../../app/providers/useAuth.js';
 import { EmptyState } from '../../shared/components/EmptyState.jsx';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../shared/constants/copy.js';
 import { createCategory, deleteCategory, updateCategory } from './categories.service.js';
 import { useCategories } from './hooks/useCategories.js';
 import { CategoryList } from './CategoryList.jsx';
@@ -70,15 +71,13 @@ export function CategoriesPage() {
   }
 
   return (
-    <div className="page-grid">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <SketchBadge variant="info">Atur kategori</SketchBadge>
-          <h1 className="page-heading mt-3">Kategori</h1>
-          <p className="page-kicker mb-0">Kelompokkan pemasukan dan pengeluaran sesuai caramu.</p>
-        </div>
-        <SketchButton onClick={openNewForm}>Tambah kategori</SketchButton>
-      </header>
+    <PageContainer>
+      <PageHeader
+        actions={<SketchButton onClick={openNewForm}>Tambah kategori</SketchButton>}
+        badge="Kategori"
+        description="Kelompokkan pemasukan dan pengeluaran."
+        title={APP_COPY.pageTitles.categories}
+      />
 
       <SuggestedCategories
         categories={categories}
@@ -88,7 +87,7 @@ export function CategoriesPage() {
 
       {loadError ? <SketchCard role="alert">{loadError}</SketchCard> : null}
       {error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}
@@ -121,6 +120,6 @@ export function CategoriesPage() {
         onSave={saveCategory}
         saving={saving}
       />
-    </div>
+    </PageContainer>
   );
 }

@@ -39,7 +39,7 @@ export function QuickAddDock({ categories = [], safeToSpend, budgetSummary, uid 
   return (
     <>
       <div className="quick-add-dock">
-        <SketchCard className="shadow-sketch p-3">
+        <SketchCard>
           <form
             className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end"
             onSubmit={submit}
@@ -48,23 +48,22 @@ export function QuickAddDock({ categories = [], safeToSpend, budgetSummary, uid 
               autoComplete="off"
               label="Tambah cepat"
               onChange={(event) => setText(event.target.value)}
-              placeholder="Contoh: beli kopi 25rb"
               value={text}
             />
             <SketchButton className="w-full sm:w-auto" type="submit">
-              Buat catatan
+              Tinjau
             </SketchButton>
           </form>
-          <p className="mt-1 mb-0 text-sm">
+          <p className="text-sm">
             Contoh: gajian 5jt · bensin 50.000 · kemarin makan 35k
           </p>
           {quickAdd.error && !quickAdd.preview ? (
-            <p className="text-red-dark mt-1 mb-0" role="alert">
+            <p className="text-red-dark" role="alert">
               {quickAdd.error}
             </p>
           ) : null}
           {quickAdd.success ? (
-            <p className="text-green-dark mt-1 mb-0" role="status">
+            <p className="text-green-dark" role="status">
               {quickAdd.success}{' '}
               {!safeToSpend.loading && !safeToSpend.error
                 ? `Jatah hari ini sisa ${formatRupiah(safeToSpend.safe.remainingToday)}.`

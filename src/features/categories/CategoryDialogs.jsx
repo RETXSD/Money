@@ -23,11 +23,11 @@ export function CategoryDialogs({
         <CategoryForm initial={editing} onCancel={onCloseForm} onSave={onSave} saving={saving} />
       </SketchModal>
       <SketchModal onClose={onCancelDelete} open={Boolean(deleting)} title="Hapus kategori?">
-        <p className="mt-0">
+        <p>
           Transaksi lama akan tetap ada, tetapi tidak lagi memakai kategori ini.
         </p>
         {error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {error}
           </p>
         ) : null}

@@ -4,8 +4,7 @@ export const SketchCard = forwardRef(function SketchCard(
   { as: Element = 'section', className = '', sticky = false, ...props },
   ref,
 ) {
-  const baseClassName =
-    'sketch-card rounded-sketch-a border-[2.5px] border-ink px-5 py-4 shadow-sketch';
+  const baseClassName = 'sketch-card';
 
   return (
     <Element

@@ -3,6 +3,7 @@ import { EmptyState } from '../../shared/components/EmptyState.jsx';
 import { SketchBadge, SketchProgress } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Grid } from '../../shared/components/Layout.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
 
 const statusLabel = { green: 'Aman', yellow: 'Hati-hati', red: 'Melebihi batas' };
@@ -16,7 +17,7 @@ export function BudgetProgressList({ progress, compact = false }) {
         icon="chart"
         title="Belum ada anggaran"
       >
-        <SketchButton as={Link} className="no-underline" to="/budgets">
+        <SketchButton as={Link} className="no-underline" to="/budgets" variant="secondary">
           Atur anggaran
         </SketchButton>
       </EmptyState>
@@ -24,15 +25,15 @@ export function BudgetProgressList({ progress, compact = false }) {
   }
 
   return (
-    <div className={`budget-progress-grid grid gap-3${compact ? ' budget-progress-compact' : ''}`}>
+    <Grid className={`budget-progress-grid${compact ? ' budget-progress-compact' : ''}`} gap={16}>
       {progress.map((item) => (
-        <SketchCard className="p-4" key={item.category.id}>
+        <SketchCard key={item.category.id}>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="m-0 text-xl font-bold">
+              <h3 className="text-xl font-bold">
                 {item.category.icon} {item.category.name}
               </h3>
-              <p className="mt-1 mb-0 text-sm">
+              <p className="text-sm">
                 {formatRupiah(item.spent)} / {formatRupiah(item.limit)}
               </p>
             </div>
@@ -40,10 +41,10 @@ export function BudgetProgressList({ progress, compact = false }) {
               {statusLabel[item.status]}
             </SketchBadge>
           </div>
-          <div className="mt-3">
+          <div>
             <SketchProgress label={`Anggaran ${item.category.name}`} value={item.percent} />
           </div>
-          <p className="mt-2 mb-0 font-bold">
+          <p className="font-bold">
             {item.remaining >= 0
               ? `Sisa ${formatRupiah(item.remaining)}`
               : `Lebih ${formatRupiah(Math.abs(item.remaining))}`}
@@ -60,6 +61,6 @@ export function BudgetProgressList({ progress, compact = false }) {
           Kelola semua anggaran
         </SketchButton>
       ) : null}
-    </div>
+    </Grid>
   );
 }

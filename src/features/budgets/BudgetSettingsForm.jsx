@@ -46,7 +46,7 @@ export function BudgetSettingsForm({ settings, saving, error, onSave }) {
         required
         value={balanceBase}
       />
-      <p className="text-ink/75 m-0 text-sm">
+      <p className="text-ink text-sm">
         Nilai ini menggantikan saldo dasar sekarang. Saat mereset, masukkan saldo rekening saat ini;
         transaksi berikutnya akan dihitung dari titik tersebut.
       </p>
@@ -59,7 +59,7 @@ export function BudgetSettingsForm({ settings, saving, error, onSave }) {
         Mulai hitung transaksi dari tanggal hari ini
       </label>
       {message || error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {message || error}
         </p>
       ) : null}

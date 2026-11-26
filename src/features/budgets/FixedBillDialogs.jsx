@@ -34,11 +34,11 @@ export function FixedBillDialogs({
       <SketchModal onClose={onCancelDelete} open={Boolean(deleting)} title="Hapus tagihan?">
         {deleting ? (
           <div className="field-stack">
-            <p className="m-0">
+            <p>
               Hapus tagihan rutin <strong>{deleting.name}</strong>?
             </p>
             {error ? (
-              <p className="text-red-dark m-0" role="alert">
+              <p className="text-red-dark" role="alert">
                 {error}
               </p>
             ) : null}

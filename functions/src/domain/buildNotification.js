@@ -127,8 +127,8 @@ function buildNoon({ profile, summary, hideAmounts, address }) {
     return {
       title: 'Cek anggaran',
       body: hideAmounts
-        ? `Budget ${nearBudget.name} sudah mendekati batas. Cek aplikasi untuk detailnya.`
-        : `Hati-hati, ${address}. Budget ${nearBudget.name} sudah ${Math.round(nearBudget.percent)}%.`,
+        ? `Anggaran ${nearBudget.name} sudah mendekati batas. Cek aplikasi untuk detailnya.`
+        : `Hati-hati, ${address}. Anggaran ${nearBudget.name} sudah ${Math.round(nearBudget.percent)}%.`,
     };
   }
 

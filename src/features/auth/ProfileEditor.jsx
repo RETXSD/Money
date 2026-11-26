@@ -59,12 +59,12 @@ export function ProfileEditor({ uid, profile, onCancel, onSaved }) {
         value={values.birthDate}
       />
       {Object.values(validation.errors).map((message) => (
-        <p className="text-red-dark m-0" key={message} role="alert">
+        <p className="text-red-dark" key={message} role="alert">
           {message}
         </p>
       ))}
       {error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}

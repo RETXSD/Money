@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../../app/providers/useAuth.js';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { PageContainer, PageHeader, Row, Stack } from '../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../shared/constants/copy.js';
 import { getAuthErrorMessage, signOutUser } from './auth.service.js';
 import { useProfile } from './hooks/useProfile.js';
 import { ProfileEditor } from './ProfileEditor.jsx';
@@ -13,9 +14,39 @@ export function ProfilePage() {
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState('');
 
-  if (loading) return <p role="status">Memuat profil…</p>;
-  if (loadError) return <SketchCard role="alert">{loadError}</SketchCard>;
-  if (!profile) return <SketchCard role="status">Profil belum tersedia.</SketchCard>;
+  if (loading)
+    return (
+      <PageContainer>
+        <PageHeader
+          badge="Akun"
+          description="Informasi dan preferensi akunmu."
+          title={APP_COPY.pageTitles.profile}
+        />
+        <p role="status">Memuat profil…</p>
+      </PageContainer>
+    );
+  if (loadError)
+    return (
+      <PageContainer>
+        <PageHeader
+          badge="Akun"
+          description="Informasi dan preferensi akunmu."
+          title={APP_COPY.pageTitles.profile}
+        />
+        <SketchCard role="alert">{loadError}</SketchCard>
+      </PageContainer>
+    );
+  if (!profile)
+    return (
+      <PageContainer>
+        <PageHeader
+          badge="Akun"
+          description="Informasi dan preferensi akunmu."
+          title={APP_COPY.pageTitles.profile}
+        />
+        <SketchCard role="status">Profil belum tersedia.</SketchCard>
+      </PageContainer>
+    );
 
   async function logout() {
     try {
@@ -26,13 +57,14 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="page-grid">
-      <header>
-        <SketchBadge variant="info">Akunmu</SketchBadge>
-        <h1 className="page-heading mt-3">Profil</h1>
-      </header>
+    <PageContainer>
+      <PageHeader
+        badge="Akun"
+        description="Informasi dan preferensi akunmu."
+        title={APP_COPY.pageTitles.profile}
+      />
       <SketchCard>
-        <div className="mb-5 flex items-center gap-4">
+        <Row className="profile-header" gap={16}>
           {profile.photoURL ? (
             <img alt="" className="profile-avatar" src={profile.photoURL} />
           ) : (
@@ -40,11 +72,11 @@ export function ProfilePage() {
               {profile.displayName?.trim().charAt(0).toUpperCase() || '?'}
             </div>
           )}
-          <div>
-            <h2 className="font-heading m-0 text-3xl">{profile.displayName}</h2>
-            <p className="m-0">{profile.email || user?.email || 'Email tidak tersedia'}</p>
-          </div>
-        </div>
+          <Stack gap={4}>
+            <h2 className="font-heading text-lg">{profile.displayName}</h2>
+            <p>{profile.email || user?.email || 'Email tidak tersedia'}</p>
+          </Stack>
+        </Row>
 
         {editing ? (
           <ProfileEditor
@@ -54,29 +86,29 @@ export function ProfilePage() {
             uid={user.uid}
           />
         ) : (
-          <div className="grid gap-3">
-            <p className="m-0">
+          <Stack gap={12}>
+            <p>
               <strong>Gender:</strong> {profile.gender === 'female' ? 'Wanita' : 'Pria'}
             </p>
-            <p className="m-0">
+            <p>
               <strong>Tanggal lahir:</strong> {profile.birthDate}
             </p>
             {error ? (
-              <p className="text-red-dark m-0" role="alert">
+              <p className="text-red-dark" role="alert">
                 {error}
               </p>
             ) : null}
-            <div className="mt-2 flex flex-wrap gap-3">
+            <Row gap={12}>
               <SketchButton onClick={() => setEditing(true)} variant="secondary">
                 Ubah profil
               </SketchButton>
               <SketchButton onClick={logout} variant="danger">
                 Keluar
               </SketchButton>
-            </div>
-          </div>
+            </Row>
+          </Stack>
         )}
       </SketchCard>
-    </div>
+    </PageContainer>
   );
 }

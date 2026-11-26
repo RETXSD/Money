@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../../app/providers/useAuth.js';
 import { DoodleIcon } from '../../shared/components/DoodleIcon.jsx';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
 import { SketchInput } from '../../shared/components/SketchField.jsx';
+import { PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
 import { formatLocalDate } from '../../shared/utils/dates.js';
 import { validateProfile } from '../../shared/utils/profileValidation.js';
 import { completeOnboarding } from './profile.service.js';
@@ -47,17 +47,18 @@ export function OnboardingPage() {
 
   return (
     <main className="login-page">
+      <PageContainer className="login-layout" gap={24}>
       <SketchCard className="login-card">
         <div aria-hidden="true" className="doodle-illustration">
           <DoodleIcon name="wallet" />
         </div>
-        <div className="text-center">
-          <SketchBadge variant="warning">Satu langkah kecil</SketchBadge>
-          <h1 className="page-heading mt-3">Kenali dompetmu</h1>
-          <p className="page-kicker mb-5">
-            Lengkapi profil dulu supaya sapaan dan pengingat terasa lebih personal.
-          </p>
-        </div>
+        <PageHeader
+          className="auth-page-header"
+          badge="Profil"
+          badgeVariant="warning"
+          description="Isi nama, gender, dan tanggal lahir."
+          title="Lengkapi profil"
+        />
 
         <form className="field-stack" onSubmit={submit}>
           <SketchInput
@@ -69,13 +70,13 @@ export function OnboardingPage() {
             value={values.displayName}
           />
           {validation.errors.displayName ? (
-            <p className="text-red-dark m-0" role="alert">
+            <p className="text-red-dark" role="alert">
               {validation.errors.displayName}
             </p>
           ) : null}
 
-          <fieldset className="m-0 grid gap-2 border-0 p-0">
-            <legend className="mb-1 font-bold">Gender</legend>
+          <fieldset className="layout-stack layout-gap-8">
+            <legend className="font-bold">Gender</legend>
             <div aria-label="Pilih gender" className="grid grid-cols-2 gap-3" role="radiogroup">
               {[
                 { value: 'female', label: 'Wanita', emoji: '🌷' },
@@ -102,7 +103,7 @@ export function OnboardingPage() {
               ))}
             </div>
             {validation.errors.gender ? (
-              <p className="text-red-dark m-0" role="alert">
+              <p className="text-red-dark" role="alert">
                 {validation.errors.gender}
               </p>
             ) : null}
@@ -116,29 +117,28 @@ export function OnboardingPage() {
             type="date"
             value={values.birthDate}
           />
-          <p className="text-ink/75 m-0 text-sm">
+          <p className="text-sm">
             Tanggal lahir dipakai untuk sapaan dan ucapan ulang tahun.
           </p>
           {validation.errors.birthDate ? (
-            <p className="text-red-dark m-0" role="alert">
+            <p className="text-red-dark" role="alert">
               {validation.errors.birthDate}
             </p>
           ) : null}
           {error ? (
-            <p className="text-red-dark m-0" role="alert">
+            <p className="text-red-dark" role="alert">
               {error}
             </p>
           ) : null}
 
-          <SketchButton
-            className="mt-2 w-full"
-            disabled={!validation.valid || saving}
-            type="submit"
-          >
-            {saving ? 'Menyimpan profil…' : 'Simpan dan lanjutkan'}
-          </SketchButton>
+          <div className="form-submit-row">
+            <SketchButton className="w-full" disabled={!validation.valid || saving} type="submit">
+              {saving ? 'Menyimpan profil…' : 'Simpan dan lanjutkan'}
+            </SketchButton>
+          </div>
         </form>
       </SketchCard>
+      </PageContainer>
     </main>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../app/providers/useAuth.js';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { Grid, Section } from '../../shared/components/Layout.jsx';
 import {
   createFixedBill,
   deleteFixedBill,
@@ -73,13 +74,14 @@ export function FixedBillsManager({ paydayDay }) {
   }
 
   return (
-    <section className="page-grid">
+    <Section gap={16}>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="showcase-title mb-0">Tagihan rutin</h2>
-          <p className="mt-1 mb-0">Tagihan aktif disisihkan dari jatah sampai jatuh tempo.</p>
+          <h2 className="showcase-title">Tagihan rutin</h2>
+          <p>Tagihan aktif disisihkan dari jatah sampai jatuh tempo.</p>
         </div>
         <SketchButton
+          variant="secondary"
           onClick={() => {
             setError('');
             setSelected(null);
@@ -90,18 +92,18 @@ export function FixedBillsManager({ paydayDay }) {
       </header>
 
       {error && selected === undefined && !deleting ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {error}
         </p>
       ) : null}
       {bills.loading ? (
         <p role="status">Memuat tagihan…</p>
       ) : bills.error ? (
-        <p className="text-red-dark m-0" role="alert">
+        <p className="text-red-dark" role="alert">
           {bills.error}
         </p>
       ) : bills.data.length ? (
-        <div className="fixed-bill-grid grid gap-3">
+        <Grid className="fixed-bill-grid" gap={16}>
           {bills.data.map((bill) => (
             <FixedBillCard
               bill={bill}
@@ -116,10 +118,10 @@ export function FixedBillsManager({ paydayDay }) {
               saving={saving}
             />
           ))}
-        </div>
+        </Grid>
       ) : (
         <SketchCard>
-          <p className="m-0">
+          <p>
             Belum ada tagihan rutin. Tambahkan kos, listrik, internet, atau cicilan.
           </p>
         </SketchCard>
@@ -135,6 +137,6 @@ export function FixedBillsManager({ paydayDay }) {
         saving={saving}
         selected={selected}
       />
-    </section>
+    </Section>
   );
 }

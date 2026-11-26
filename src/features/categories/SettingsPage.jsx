@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
+import { PageContainer, PageHeader } from '../../shared/components/Layout.jsx';
+import { APP_COPY } from '../../shared/constants/copy.js';
 import { useAuth } from '../../app/providers/useAuth.js';
 import { useBudgetSettings } from '../budgets/hooks/useBudgetSettings.js';
 import { BudgetSettingsForm } from '../budgets/BudgetSettingsForm.jsx';
@@ -34,30 +35,35 @@ export function SettingsPage() {
   }
 
   return (
-    <div className="page-grid">
-      <header>
-        <SketchBadge variant="info">Preferensi</SketchBadge>
-        <h1 className="page-heading mt-3">Pengaturan</h1>
-        <p className="page-kicker">Sesuaikan cara MTRCK mengatur dompetmu.</p>
-      </header>
+    <PageContainer>
+      <PageHeader
+        badge="Preferensi"
+        description="Atur siklus gajian, kategori, dan pengingat."
+        title={APP_COPY.pageTitles.settings}
+      />
       <div className="settings-shortcuts">
         <SketchCard>
           <h2 className="showcase-title">Kategori</h2>
-          <p className="mt-0">Atur kategori pemasukan dan pengeluaran yang kamu pakai.</p>
-          <SketchButton as={Link} className="no-underline" to="/settings/categories">
+          <p>Atur kategori pemasukan dan pengeluaran yang kamu pakai.</p>
+          <SketchButton
+            as={Link}
+            className="no-underline"
+            to="/settings/categories"
+            variant="secondary"
+          >
             Kelola kategori
           </SketchButton>
         </SketchCard>
         <SketchCard>
-          <h2 className="showcase-title">Pengingat harian</h2>
-          <p className="mt-0">Atur waktu pengingat dan pilih apakah nominal ditampilkan.</p>
+          <h2 className="showcase-title">Pengingat</h2>
+          <p>Atur waktu pengingat dan pilih apakah nominal ditampilkan.</p>
           <SketchButton
             as={Link}
             className="no-underline"
             to="/settings/notifications"
             variant="secondary"
           >
-            Atur notifikasi
+            Atur pengingat
           </SketchButton>
         </SketchCard>
       </div>
@@ -66,7 +72,7 @@ export function SettingsPage() {
         {settings.loading ? (
           <p role="status">Memuat pengaturan…</p>
         ) : settings.error ? (
-          <p className="text-red-dark m-0" role="alert">
+          <p className="text-red-dark" role="alert">
             {settings.error}
           </p>
         ) : settings.data ? (
@@ -79,6 +85,6 @@ export function SettingsPage() {
         ) : null}
       </SketchCard>
       {settings.data ? <FixedBillsManager paydayDay={settings.data.paydayDay} /> : null}
-    </div>
+    </PageContainer>
   );
 }
