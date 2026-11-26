@@ -211,6 +211,16 @@ a {
   gap: 18px;
 }
 
+.quick-add-dock {
+  position: fixed;
+  z-index: 30;
+  right: 16px;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  left: 16px;
+  width: min(100% - 32px, 760px);
+  margin: 0 auto;
+}
+
 .showcase-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -388,6 +398,14 @@ a {
 
   .header-caption {
     display: inline;
+  }
+
+  .quick-add-dock {
+    right: max(30px, calc((100vw - 960px) / 2));
+    bottom: 16px;
+    left: max(125px, calc((100vw - 960px) / 2 + 105px));
+    width: min(720px, calc(100vw - 180px));
+    margin: 0 auto;
   }
 }
 

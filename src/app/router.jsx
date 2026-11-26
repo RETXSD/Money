@@ -9,9 +9,10 @@ import { CategoriesPage } from '../features/categories/CategoriesPage.jsx';
 import { SettingsPage } from '../features/categories/SettingsPage.jsx';
 import { TransactionsPage } from '../features/transactions/TransactionsPage.jsx';
 import { DesignPage } from '../features/design/DesignPage.jsx';
+import { DashboardPage } from '../features/dashboard/DashboardPage.jsx';
 
 const appRoutes = [
-  { index: true, element: <PlaceholderPage page="Beranda" /> },
+  { index: true, element: <DashboardPage /> },
   { path: 'transactions', element: <TransactionsPage /> },
   { path: 'budgets', element: <PlaceholderPage page="Anggaran" /> },
   { path: 'debts', element: <PlaceholderPage page="Utang & piutang" /> },
