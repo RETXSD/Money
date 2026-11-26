@@ -27,10 +27,6 @@ const appRoutes = [
   { path: 'settings/*', element: <SettingsPage /> },
 ];
 
-if (import.meta.env.DEV) {
-  appRoutes.push({ path: 'design', element: <DesignPage /> });
-}
-
 export const router = createBrowserRouter([
   {
     path: '/login',

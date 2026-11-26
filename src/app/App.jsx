@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from './providers/useAuth.js';
 import { useProfile } from '../features/auth/hooks/useProfile.js';
 import { DoodleIcon } from '../shared/components/DoodleIcon.jsx';
@@ -13,13 +13,9 @@ const navigation = [
 ];
 
 export function App() {
-  const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { profile } = useProfile(user?.uid);
-  const isDesign = location.pathname === '/design';
-
-  if (isDesign) return <Outlet />;
 
   return (
     <NotificationsProvider>
