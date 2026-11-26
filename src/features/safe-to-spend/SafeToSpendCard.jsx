@@ -47,11 +47,9 @@ export function SafeToSpendCard({ summary: { billsDue, error, loading, safe } })
         <p className="m-0">
           Disisihkan untuk tagihan: <strong>{formatRupiah(safe.remainingBills)}</strong>
         </p>
-        {safe.debtsDue ? (
-          <p className="m-0">
-            Disisihkan untuk utang jatuh tempo: <strong>{formatRupiah(safe.debtsDue)}</strong>
-          </p>
-        ) : null}
+        <p className="m-0">
+          Disisihkan untuk utang jatuh tempo: <strong>{formatRupiah(safe.debtsDue)}</strong>
+        </p>
         {billsDue.length ? (
           <ul className="m-0 list-inside list-disc p-0">
             {billsDue.slice(0, 3).map((bill) => (

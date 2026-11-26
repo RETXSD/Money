@@ -5,11 +5,13 @@ import { calculateSafeToSpend } from '../calculateSafeToSpend.js';
 import { getUpcomingFixedBills, sumVariableExpensesToday } from '../safeToSpendMath.js';
 import { getCycle } from '../../../shared/utils/dates.js';
 import { DEFAULT_PAYDAY_DAY } from '../../../shared/constants/budget.js';
+import { useDebts } from '../../debts/hooks/useDebts.js';
 
 export function useSafeToSpend(uid) {
   const today = new Date();
   const settings = useBudgetSettings(uid);
   const fixedBills = useFixedBills(uid);
+  const debts = useDebts(uid);
   const paydayDay = settings.data?.paydayDay || DEFAULT_PAYDAY_DAY;
   const cycle = getCycle(today, paydayDay);
   const cycleTransactions = useTransactions(uid, {
@@ -33,13 +35,17 @@ export function useSafeToSpend(uid) {
   const safe = calculateSafeToSpend({
     balance,
     fixedBills: billsDue,
-    debts: [],
+    debts: debts.data,
     spentToday: sumVariableExpensesToday(cycleTransactions.data, today),
     paydayDay,
     today,
   });
   const error =
-    settings.error || fixedBills.error || cycleTransactions.error || balanceTransactions.error;
+    settings.error ||
+    fixedBills.error ||
+    debts.error ||
+    cycleTransactions.error ||
+    balanceTransactions.error;
 
   return {
     balance,
@@ -49,6 +55,7 @@ export function useSafeToSpend(uid) {
     loading:
       settings.loading ||
       fixedBills.loading ||
+      debts.loading ||
       cycleTransactions.loading ||
       balanceTransactions.loading,
     paydayDay,

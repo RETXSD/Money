@@ -7,6 +7,8 @@ import { calculateBudgetProgress, getBudgetAllocationWarning } from '../budgetMa
 import { useFixedBills } from './useFixedBills.js';
 import { getUpcomingFixedBills } from '../../safe-to-spend/safeToSpendMath.js';
 import { DEFAULT_PAYDAY_DAY } from '../../../shared/constants/budget.js';
+import { useDebts } from '../../debts/hooks/useDebts.js';
+import { sumDebtsDue } from '../../safe-to-spend/safeToSpendMath.js';
 
 export function useBudgetSummary(uid) {
   const today = new Date();
@@ -14,6 +16,7 @@ export function useBudgetSummary(uid) {
   const budgets = useBudgets(uid);
   const settings = useBudgetSettings(uid);
   const fixedBills = useFixedBills(uid);
+  const debts = useDebts(uid);
   const paydayDay = settings.data?.paydayDay || DEFAULT_PAYDAY_DAY;
   const cycle = getCycle(today, paydayDay);
   const cycleTransactions = useTransactions(uid, {
@@ -43,15 +46,17 @@ export function useBudgetSummary(uid) {
     today,
     cycle,
   }).reduce((total, bill) => total + bill.amount, 0);
+  const debtsDue = sumDebtsDue(debts.data, cycle.end);
   const allocationWarning = getBudgetAllocationWarning(
     progress.map((item) => ({ limit: item.limit })),
-    balance - remainingBills,
+    balance - remainingBills - debtsDue,
   );
   const loading =
     categories.loading ||
     budgets.loading ||
     settings.loading ||
     fixedBills.loading ||
+    debts.loading ||
     cycleTransactions.loading ||
     balanceTransactions.loading;
   const error =
@@ -59,6 +64,7 @@ export function useBudgetSummary(uid) {
     budgets.error ||
     settings.error ||
     fixedBills.error ||
+    debts.error ||
     cycleTransactions.error ||
     balanceTransactions.error;
 
@@ -72,6 +78,7 @@ export function useBudgetSummary(uid) {
     loading,
     progress,
     remainingBills,
+    debtsDue,
     transactions: cycleTransactions.data,
   };
 }

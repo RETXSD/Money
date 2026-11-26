@@ -40,6 +40,7 @@ export function sumVariableExpensesToday(transactions, today) {
       transaction.debtId ||
       transaction.fixedBillId ||
       !(date instanceof Date) ||
+      !Number.isSafeInteger(transaction.amount) ||
       date.getFullYear() !== today.getFullYear() ||
       date.getMonth() !== today.getMonth() ||
       date.getDate() !== today.getDate()
@@ -47,5 +48,22 @@ export function sumVariableExpensesToday(transactions, today) {
       return total;
     }
     return total + transaction.amount;
+  }, 0);
+}
+
+/** Sums unpaid debts owed by the user that fall due by the current cycle end. */
+export function sumDebtsDue(debts, cycleEnd) {
+  return debts.reduce((total, debt) => {
+    if (
+      debt.status !== 'open' ||
+      debt.direction !== 'i_owe' ||
+      !(debt.dueDate instanceof Date) ||
+      debt.dueDate > cycleEnd ||
+      !Number.isSafeInteger(debt.amount) ||
+      !Number.isSafeInteger(debt.paidAmount)
+    ) {
+      return total;
+    }
+    return total + Math.max(0, debt.amount - debt.paidAmount);
   }, 0);
 }

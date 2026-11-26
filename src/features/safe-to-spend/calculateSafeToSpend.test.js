@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { calculateSafeToSpend } from './calculateSafeToSpend.js';
-import { getUpcomingFixedBills, sumVariableExpensesToday } from './safeToSpendMath.js';
+import { getUpcomingFixedBills, sumDebtsDue, sumVariableExpensesToday } from './safeToSpendMath.js';
 import { getCycle } from '../../shared/utils/dates.js';
 
 const today = new Date(2026, 10, 26, 8);
@@ -101,5 +101,39 @@ describe('sumVariableExpensesToday', () => {
         today,
       ),
     ).toBe(20000);
+  });
+});
+
+describe('sumDebtsDue', () => {
+  it('reserves only open debts the user owes with a due date in the cycle', () => {
+    expect(
+      sumDebtsDue(
+        [
+          {
+            amount: 100000,
+            paidAmount: 25000,
+            direction: 'i_owe',
+            status: 'open',
+            dueDate: new Date(2026, 11, 1),
+          },
+          {
+            amount: 200000,
+            paidAmount: 0,
+            direction: 'owed_to_me',
+            status: 'open',
+            dueDate: new Date(2026, 11, 1),
+          },
+          {
+            amount: 200000,
+            paidAmount: 0,
+            direction: 'i_owe',
+            status: 'settled',
+            dueDate: new Date(2026, 11, 1),
+          },
+          { amount: 200000, paidAmount: 0, direction: 'i_owe', status: 'open', dueDate: null },
+        ],
+        new Date(2026, 11, 25),
+      ),
+    ).toBe(75000);
   });
 });

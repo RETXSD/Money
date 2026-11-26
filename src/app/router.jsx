@@ -11,13 +11,15 @@ import { TransactionsPage } from '../features/transactions/TransactionsPage.jsx'
 import { DesignPage } from '../features/design/DesignPage.jsx';
 import { DashboardPage } from '../features/dashboard/DashboardPage.jsx';
 import { BudgetPage } from '../features/budgets/BudgetPage.jsx';
+import { DebtsPage } from '../features/debts/DebtsPage.jsx';
+import { DebtDetailPage } from '../features/debts/DebtDetailPage.jsx';
 
 const appRoutes = [
   { index: true, element: <DashboardPage /> },
   { path: 'transactions', element: <TransactionsPage /> },
   { path: 'budgets', element: <BudgetPage /> },
-  { path: 'debts', element: <PlaceholderPage page="Utang & piutang" /> },
-  { path: 'debts/:id', element: <PlaceholderPage page="Detail utang" /> },
+  { path: 'debts', element: <DebtsPage /> },
+  { path: 'debts/:id', element: <DebtDetailPage /> },
   { path: 'profile', element: <ProfilePage /> },
   { path: 'settings/categories', element: <CategoriesPage /> },
   { path: 'settings/*', element: <SettingsPage /> },

@@ -5,20 +5,32 @@ import { SketchInput } from '../../shared/components/SketchField.jsx';
 import { useQuickAdd } from './hooks/useQuickAdd.js';
 import { QuickAddPreview } from './QuickAddPreview.jsx';
 import { formatRupiah } from '../../shared/utils/money.js';
+import { usePeople } from '../debts/hooks/usePeople.js';
+import { useDebts } from '../debts/hooks/useDebts.js';
 
 export function QuickAddDock({ categories = [], safeToSpend, budgetSummary, uid }) {
   const [text, setText] = useState('');
   const [lastSaved, setLastSaved] = useState(null);
   const quickAdd = useQuickAdd(uid);
+  const people = usePeople(uid);
+  const debts = useDebts(uid);
 
   function submit(event) {
     event.preventDefault();
-    quickAdd.parse(text, { categories, people: [], today: new Date() });
+    quickAdd.parse(text, { categories, people: people.data, today: new Date() });
   }
 
   async function save(options) {
     const saved = quickAdd.preview;
-    if (await quickAdd.save(options)) {
+    if (
+      await quickAdd.save({
+        ...options,
+        people: people.data,
+        debts: debts.data,
+        peopleLoading: people.loading,
+        debtsLoading: debts.loading,
+      })
+    ) {
       setText('');
       setLastSaved(saved);
     }

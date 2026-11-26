@@ -78,6 +78,34 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
         {preview.debt ? (
           <SketchCard className="p-3" sticky>
             <h3 className="m-0 font-bold">Rincian utang</h3>
+            <SketchInput
+              label="Nama orang"
+              onChange={(event) =>
+                onChange('debt', { ...preview.debt, personName: event.target.value })
+              }
+              value={preview.debt.personName}
+            />
+            <SketchSelect
+              label="Arah catatan"
+              onChange={(event) =>
+                onChange('debt', { ...preview.debt, direction: event.target.value })
+              }
+              options={[
+                { value: 'owed_to_me', label: 'Piutang ke saya' },
+                { value: 'i_owe', label: 'Saya berutang' },
+              ]}
+              value={preview.debt.direction}
+            />
+            <label className="mt-2 flex min-h-11 items-center gap-3">
+              <input
+                checked={preview.debt.affectsCash}
+                onChange={(event) =>
+                  onChange('debt', { ...preview.debt, affectsCash: event.target.checked })
+                }
+                type="checkbox"
+              />
+              Uang tunai berpindah sekarang
+            </label>
             <p className="mt-1 mb-0">
               {preview.debt.repayment ? 'Pembayaran' : 'Catatan'}{' '}
               {preview.debt.direction === 'owed_to_me' ? 'piutang dari' : 'utang ke'}{' '}
@@ -87,7 +115,8 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
                 : 'Tidak mengubah saldo tunai.'}
             </p>
             <p className="mt-2 mb-0 text-sm">
-              Penyimpanan utang dan pembayaran tersedia pada milestone fitur berikutnya.
+              Periksa nama dan arah utang sebelum menyimpan. Pembayaran akan memperbarui saldo dan
+              riwayat orang ini.
             </p>
           </SketchCard>
         ) : null}
@@ -113,7 +142,7 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
         ) : null}
         <div className="flex flex-wrap gap-3">
           <SketchButton
-            disabled={saving || Boolean(preview.debt)}
+            disabled={saving}
             onClick={() =>
               onSave({
                 learnKeyword: learnKeyword ? keywordSuggestion : '',
@@ -121,7 +150,13 @@ export function QuickAddPreview({ categories, error, onChange, onClose, onSave, 
               })
             }
           >
-            {saving ? 'Menyimpan…' : 'Simpan transaksi'}
+            {saving
+              ? 'Menyimpan…'
+              : preview.debt?.repayment
+                ? 'Catat pembayaran'
+                : preview.debt
+                  ? 'Simpan catatan utang'
+                  : 'Simpan transaksi'}
           </SketchButton>
           <SketchButton disabled={saving} onClick={onClose} variant="secondary">
             Batal

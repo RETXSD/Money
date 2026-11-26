@@ -1,5 +1,6 @@
 import { getCycle } from '../../shared/utils/dates.js';
 import { MILLISECONDS_PER_DAY } from '../../shared/constants/dates.js';
+import { sumDebtsDue } from './safeToSpendMath.js';
 
 function localDayNumber(date) {
   return Math.floor(
@@ -22,17 +23,7 @@ export function calculateSafeToSpend({ balance, fixedBills, debts, spentToday, p
       ? total + bill.amount
       : total;
   }, 0);
-  const debtsDue = debts.reduce((total, debt) => {
-    if (
-      debt.status !== 'open' ||
-      debt.direction !== 'i_owe' ||
-      !(debt.dueDate instanceof Date) ||
-      debt.dueDate > cycleEnd
-    ) {
-      return total;
-    }
-    return total + Math.max(0, debt.amount - debt.paidAmount);
-  }, 0);
+  const debtsDue = sumDebtsDue(debts, cycleEnd);
   const pool = balance + spentToday - remainingBills - debtsDue;
   const dailyAllowance = Math.max(0, Math.floor(pool / daysLeft));
 
