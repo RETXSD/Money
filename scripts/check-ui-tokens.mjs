@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 const sourceRoot = fileURLToPath(new URL('../src/', import.meta.url));
 const allowedSpacing = new Set(['0', '1', '2', '3', '4', '6', '8', '12', '16']);
+const allowedSpacingPixels = new Set(['0', '4', '8', '12', '16', '20', '24', '32', '48', '64']);
 const spacingUtilities = /(?<![\w-])-?(?:p[trblxyse]?|m[trblxyse]?|gap(?:-[xy])?|space-[xy])-([^\s"'`.:$]+)/g;
+const cssSpacingDeclaration = /\b(?:padding(?:-[\w-]+)?|margin(?:-[\w-]+)?|gap(?:-[xy])?)\s*:\s*([^;]+);/g;
 const radiusUtilities = /(?<![\w-])rounded(?:-[a-z0-9]+)*/g;
 const classNameValue = /\bclassName\s*(?:=|:)\s*(?:\{`([^`]*)`\}|["'`]([^"'`]*)["'`])/g;
 const hexColor = /#[\da-f]{3,8}\b/gi;
@@ -35,6 +37,20 @@ function checkSpacingUtilities(file, content) {
     const value = match[1];
     if (!allowedSpacing.has(value)) {
       report(file, content, match.index, `spacing utility uses unsupported value "${value}"`);
+    }
+  }
+}
+
+function checkCssSpacing(file, content) {
+  for (const declaration of content.matchAll(cssSpacingDeclaration)) {
+    const value = declaration[1];
+    for (const match of value.matchAll(/(-?\d+(?:\.\d+)?)px\b/g)) {
+      const spacing = match[1].replace(/^-/, '');
+      const isCenteredContentWidth = spacing === '1200' && /100vw\s*-\s*1200px/.test(value);
+      if (isCenteredContentWidth) continue;
+      if (!allowedSpacingPixels.has(spacing)) {
+        report(file, content, declaration.index, `CSS spacing uses unsupported ${spacing}px value`);
+      }
     }
   }
 }
@@ -79,6 +95,7 @@ for (const file of await listFiles(sourceRoot)) {
   if (!['.js', '.jsx', '.css'].includes(extension)) continue;
   const content = await readFile(file, 'utf8');
   checkSpacingUtilities(file, content);
+  if (extension === '.css') checkCssSpacing(file, content);
   checkRadiusUtilities(file, content);
   checkInlineStyles(file, content);
   checkEmptyClassNames(file, content);

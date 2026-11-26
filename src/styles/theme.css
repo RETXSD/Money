@@ -1055,7 +1055,6 @@ a {
   }
 
   .bottom-nav {
-    gap: 0;
     padding-right: var(--space-1);
     padding-left: var(--space-1);
   }
