@@ -5,16 +5,20 @@ import { LoginPage } from '../features/auth/LoginPage.jsx';
 import { OnboardingPage } from '../features/auth/OnboardingPage.jsx';
 import { ProfilePage } from '../features/auth/ProfilePage.jsx';
 import { RouteGuard } from '../features/auth/RouteGuard.jsx';
+import { CategoriesPage } from '../features/categories/CategoriesPage.jsx';
+import { SettingsPage } from '../features/categories/SettingsPage.jsx';
+import { TransactionsPage } from '../features/transactions/TransactionsPage.jsx';
 import { DesignPage } from '../features/design/DesignPage.jsx';
 
 const appRoutes = [
   { index: true, element: <PlaceholderPage page="Beranda" /> },
-  { path: 'transactions', element: <PlaceholderPage page="Transaksi" /> },
+  { path: 'transactions', element: <TransactionsPage /> },
   { path: 'budgets', element: <PlaceholderPage page="Anggaran" /> },
   { path: 'debts', element: <PlaceholderPage page="Utang & piutang" /> },
   { path: 'debts/:id', element: <PlaceholderPage page="Detail utang" /> },
   { path: 'profile', element: <ProfilePage /> },
-  { path: 'settings/*', element: <PlaceholderPage page="Pengaturan" /> },
+  { path: 'settings/categories', element: <CategoriesPage /> },
+  { path: 'settings/*', element: <SettingsPage /> },
 ];
 
 if (import.meta.env.DEV) {

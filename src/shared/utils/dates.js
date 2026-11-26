@@ -1,4 +1,5 @@
 import { MIN_AGE } from '../constants/profile.js';
+import { DEFAULT_PAYDAY_DAY, MAX_PAYDAY_DAY, MIN_PAYDAY_DAY } from '../constants/budget.js';
 
 function parseBirthDate(birthDate) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(birthDate || '');
@@ -36,6 +37,37 @@ export function formatLocalDate(date) {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+function getPaydayDate(year, monthIndex, paydayDay) {
+  const lastDay = new Date(year, monthIndex + 1, 0).getDate();
+  const clampedPayday = Math.min(MAX_PAYDAY_DAY, Math.max(MIN_PAYDAY_DAY, paydayDay));
+  return new Date(year, monthIndex, Math.min(clampedPayday, lastDay));
+}
+
+/**
+ * Returns the payday cycle containing a supplied local date.
+ * @param {Date} today Local date to locate in a cycle.
+ * @param {number} paydayDay Payday day from 1 through 31.
+ * @returns {{ start: Date, end: Date, key: string }} Cycle with an exclusive end date.
+ */
+export function getCycle(today, paydayDay) {
+  if (!(today instanceof Date) || Number.isNaN(today.getTime())) {
+    throw new TypeError('today must be a valid Date');
+  }
+
+  const normalizedPayday = Number.isFinite(paydayDay)
+    ? Math.min(MAX_PAYDAY_DAY, Math.max(MIN_PAYDAY_DAY, Math.trunc(paydayDay)))
+    : DEFAULT_PAYDAY_DAY;
+  const currentMonthPayday = getPaydayDate(today.getFullYear(), today.getMonth(), normalizedPayday);
+  const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const startsThisMonth = todayDate >= currentMonthPayday;
+  const start = startsThisMonth
+    ? currentMonthPayday
+    : getPaydayDate(today.getFullYear(), today.getMonth() - 1, normalizedPayday);
+  const end = getPaydayDate(start.getFullYear(), start.getMonth() + 1, normalizedPayday);
+
+  return { start, end, key: formatLocalDate(start) };
 }
 
 /**
