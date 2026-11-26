@@ -11,29 +11,47 @@ import {
 import { firebaseApp } from '../../lib/firebase.js';
 import { removeNotificationToken } from '../notifications/notification.service.js';
 
-const auth = getAuth(firebaseApp);
+let auth;
+let authInitializationError;
+
+try {
+  auth = getAuth(firebaseApp);
+} catch (error) {
+  authInitializationError = error;
+}
+
+function getAuthClient() {
+  if (authInitializationError) throw authInitializationError;
+  return auth;
+}
 
 export function subscribeToAuth(onUser, onError) {
-  return onAuthStateChanged(auth, onUser, onError);
+  try {
+    return onAuthStateChanged(getAuthClient(), onUser, onError);
+  } catch (error) {
+    onError(error);
+    return () => {};
+  }
 }
 
 export async function signInWithGoogle() {
-  return signInWithPopup(auth, new GoogleAuthProvider());
+  return signInWithPopup(getAuthClient(), new GoogleAuthProvider());
 }
 
 export async function signInWithEmail(email, password) {
-  return signInWithEmailAndPassword(auth, email.trim(), password);
+  return signInWithEmailAndPassword(getAuthClient(), email.trim(), password);
 }
 
 export async function registerWithEmail(email, password, displayName) {
-  const credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
+  const credential = await createUserWithEmailAndPassword(getAuthClient(), email.trim(), password);
   const trimmedName = displayName.trim();
   if (trimmedName) await updateAuthProfile(credential.user, { displayName: trimmedName });
   return credential;
 }
 
 export async function signOutUser() {
-  const uid = auth.currentUser?.uid;
+  const authClient = getAuthClient();
+  const uid = authClient.currentUser?.uid;
   if (uid) {
     try {
       await removeNotificationToken(uid);
@@ -41,11 +59,13 @@ export async function signOutUser() {
       // Logging out must still work when a notification token cannot be removed.
     }
   }
-  return signOut(auth);
+  return signOut(authClient);
 }
 
 export function getAuthErrorMessage(error) {
   const messages = {
+    'auth/invalid-api-key':
+      'Konfigurasi Firebase belum valid. Isi VITE_FIREBASE_* dari aplikasi web Firebase di .env, lalu mulai ulang server.',
     'auth/email-already-in-use': 'Email ini sudah terdaftar. Coba masuk.',
     'auth/invalid-credential': 'Email atau kata sandi belum sesuai.',
     'auth/invalid-email': 'Format email belum benar.',
