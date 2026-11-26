@@ -1,4 +1,4 @@
-import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { doc, getFirestore, onSnapshot, setDoc, Timestamp } from 'firebase/firestore';
 import { DEFAULT_BALANCE_BASE, DEFAULT_PAYDAY_DAY } from '../../shared/constants/budget.js';
 import { firebaseApp } from '../../lib/firebase.js';
 
@@ -22,5 +22,17 @@ export function subscribeToBudgetSettings(uid, onData, onError) {
       });
     },
     onError,
+  );
+}
+
+export async function saveBudgetSettings(uid, values) {
+  await setDoc(
+    doc(db, 'users', uid, 'settings', 'budget'),
+    {
+      paydayDay: values.paydayDay,
+      balanceBase: values.balanceBase,
+      balanceBaseDate: Timestamp.fromDate(values.balanceBaseDate),
+    },
+    { merge: true },
   );
 }

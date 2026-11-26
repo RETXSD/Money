@@ -22,6 +22,7 @@ export async function saveQuickAddTransaction(uid, values, learnedKeyword) {
     date: Timestamp.fromDate(values.date),
     source: 'quick-add',
     debtId: null,
+    fixedBillId: null,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
@@ -32,5 +33,11 @@ export async function saveQuickAddTransaction(uid, values, learnedKeyword) {
   }
 
   await batch.commit();
-  return { id: transactionRef.id, ...values, source: 'quick-add', debtId: null };
+  return {
+    id: transactionRef.id,
+    ...values,
+    source: 'quick-add',
+    debtId: null,
+    fixedBillId: null,
+  };
 }

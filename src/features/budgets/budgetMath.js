@@ -1,3 +1,8 @@
+import {
+  BUDGET_PROGRESS_MAX_PERCENT,
+  BUDGET_PROGRESS_WARNING_PERCENT,
+} from '../../shared/constants/budget.js';
+
 /** @typedef {{ id: string, limit: number }} Budget */
 /** @typedef {{ categoryId: string|null, amount: number, type: string, debtId?: string|null }} Transaction */
 
@@ -36,14 +41,19 @@ export function calculateBudgetProgress({ categories, budgets, transactions }) {
       const category = categoryById.get(categoryId);
       if (!category || category.type !== 'expense') return null;
       const spent = spendingByCategory.get(categoryId) || 0;
-      const percent = Math.floor((spent * 100) / limit);
+      const percent = Number((BigInt(spent) * BigInt(BUDGET_PROGRESS_MAX_PERCENT)) / BigInt(limit));
       return {
         category,
         limit,
         spent,
         remaining: limit - spent,
         percent,
-        status: percent < 75 ? 'green' : percent <= 100 ? 'yellow' : 'red',
+        status:
+          percent < BUDGET_PROGRESS_WARNING_PERCENT
+            ? 'green'
+            : percent <= BUDGET_PROGRESS_MAX_PERCENT
+              ? 'yellow'
+              : 'red',
       };
     })
     .filter(Boolean)

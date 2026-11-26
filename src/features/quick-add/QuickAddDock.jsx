@@ -1,17 +1,15 @@
 import { useState } from 'react';
-import { useAuth } from '../../app/providers/useAuth.js';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { SketchCard } from '../../shared/components/SketchCard.jsx';
 import { SketchInput } from '../../shared/components/SketchField.jsx';
-import { useCategories } from '../categories/hooks/useCategories.js';
 import { useQuickAdd } from './hooks/useQuickAdd.js';
 import { QuickAddPreview } from './QuickAddPreview.jsx';
+import { formatRupiah } from '../../shared/utils/money.js';
 
-export function QuickAddDock() {
-  const { user } = useAuth();
-  const { data: categories } = useCategories(user.uid);
+export function QuickAddDock({ categories = [], safeToSpend, budgetSummary, uid }) {
   const [text, setText] = useState('');
-  const quickAdd = useQuickAdd(user.uid);
+  const [lastSaved, setLastSaved] = useState(null);
+  const quickAdd = useQuickAdd(uid);
 
   function submit(event) {
     event.preventDefault();
@@ -19,7 +17,11 @@ export function QuickAddDock() {
   }
 
   async function save(options) {
-    if (await quickAdd.save(options)) setText('');
+    const saved = quickAdd.preview;
+    if (await quickAdd.save(options)) {
+      setText('');
+      setLastSaved(saved);
+    }
   }
 
   return (
@@ -51,7 +53,20 @@ export function QuickAddDock() {
           ) : null}
           {quickAdd.success ? (
             <p className="text-green-dark mt-1 mb-0" role="status">
-              {quickAdd.success}
+              {quickAdd.success}{' '}
+              {!safeToSpend.loading && !safeToSpend.error
+                ? `Jatah hari ini sisa ${formatRupiah(safeToSpend.safe.remainingToday)}.`
+                : ''}{' '}
+              {lastSaved?.categoryId && !budgetSummary.loading
+                ? (() => {
+                    const categoryBudget = budgetSummary.progress.find(
+                      (item) => item.category.id === lastSaved.categoryId,
+                    );
+                    return categoryBudget
+                      ? `${categoryBudget.category.name} sisa ${formatRupiah(categoryBudget.remaining)}.`
+                      : '';
+                  })()
+                : ''}
             </p>
           ) : null}
         </SketchCard>

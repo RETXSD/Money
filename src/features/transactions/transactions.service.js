@@ -40,6 +40,7 @@ function transactionPayload(values) {
     date: Timestamp.fromDate(values.date),
     source: values.source || 'manual',
     debtId: values.debtId || null,
+    fixedBillId: values.fixedBillId || null,
     updatedAt: serverTimestamp(),
   };
 }

@@ -211,6 +211,11 @@ a {
   gap: 18px;
 }
 
+.safe-amount {
+  width: fit-content;
+  background-image: linear-gradient(transparent 68%, var(--color-yellow) 68%);
+}
+
 .quick-add-dock {
   position: fixed;
   z-index: 30;

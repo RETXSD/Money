@@ -4,11 +4,8 @@ import { SketchBadge } from '../../shared/components/SketchFeedback.jsx';
 import { SketchButton } from '../../shared/components/SketchButton.jsx';
 import { BudgetProgressList } from './BudgetProgressList.jsx';
 import { BudgetWarning } from './BudgetWarning.jsx';
-import { useBudgetSummary } from './hooks/useBudgetSummary.js';
 
-export function BudgetSummary({ uid, compact = false }) {
-  const summary = useBudgetSummary(uid);
-
+export function BudgetSummary({ summary, compact = false }) {
   if (summary.loading) return <p role="status">Memuat anggaran…</p>;
   if (summary.error) {
     return (
