@@ -43,9 +43,9 @@ export function SettingsPage() {
       <SketchCard>
         <h2 className="showcase-title">Kategori</h2>
         <p className="mt-0">Atur kategori pemasukan dan pengeluaran yang kamu pakai.</p>
-        <Link className="inline-flex no-underline" to="/settings/categories">
-          <SketchButton>Kelola kategori</SketchButton>
-        </Link>
+        <SketchButton as={Link} className="no-underline" to="/settings/categories">
+          Kelola kategori
+        </SketchButton>
       </SketchCard>
       <SketchCard>
         <h2 className="showcase-title">Siklus gajian</h2>

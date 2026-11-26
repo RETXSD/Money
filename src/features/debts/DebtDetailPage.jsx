@@ -43,9 +43,9 @@ export function DebtDetailPage() {
     return (
       <SketchCard>
         <h1 className="showcase-title">Catatan utang tidak ditemukan</h1>
-        <Link className="no-underline" to="/debts">
-          <SketchButton variant="secondary">Kembali</SketchButton>
-        </Link>
+        <SketchButton as={Link} className="no-underline" to="/debts" variant="secondary">
+          Kembali
+        </SketchButton>
       </SketchCard>
     );
   }
@@ -70,9 +70,9 @@ export function DebtDetailPage() {
           </SketchBadge>
           <h1 className="page-heading mt-3">{person?.name || 'Orang tidak ditemukan'}</h1>
         </div>
-        <Link className="no-underline" to="/debts">
-          <SketchButton variant="secondary">Kembali</SketchButton>
-        </Link>
+        <SketchButton as={Link} className="no-underline" to="/debts" variant="secondary">
+          Kembali
+        </SketchButton>
       </header>
 
       <SketchCard>

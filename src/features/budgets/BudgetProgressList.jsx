@@ -16,9 +16,9 @@ export function BudgetProgressList({ progress, compact = false }) {
         icon="chart"
         title="Belum ada anggaran"
       >
-        <Link className="no-underline" to="/budgets">
-          <SketchButton>Atur anggaran</SketchButton>
-        </Link>
+        <SketchButton as={Link} className="no-underline" to="/budgets">
+          Atur anggaran
+        </SketchButton>
       </EmptyState>
     );
   }
@@ -51,9 +51,14 @@ export function BudgetProgressList({ progress, compact = false }) {
         </SketchCard>
       ))}
       {compact ? (
-        <Link className="justify-self-start no-underline" to="/budgets">
-          <SketchButton variant="secondary">Kelola semua anggaran</SketchButton>
-        </Link>
+        <SketchButton
+          as={Link}
+          className="justify-self-start no-underline"
+          to="/budgets"
+          variant="secondary"
+        >
+          Kelola semua anggaran
+        </SketchButton>
       ) : null}
     </div>
   );

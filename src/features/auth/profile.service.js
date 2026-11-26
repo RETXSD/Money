@@ -42,6 +42,7 @@ export async function completeOnboarding({ uid, profile }) {
   const batch = writeBatch(db);
   const userRef = doc(db, 'users', uid);
   const budgetRef = doc(db, 'users', uid, 'settings', 'budget');
+  const accountRef = doc(db, 'users', uid, 'settings', 'account');
   const categoriesRef = collection(db, 'users', uid, 'categories');
 
   batch.set(userRef, {
@@ -58,6 +59,7 @@ export async function completeOnboarding({ uid, profile }) {
     balanceBase: DEFAULT_BALANCE_BASE,
     balanceBaseDate: serverTimestamp(),
   });
+  batch.set(accountRef, { plan: 'free', createdAt: serverTimestamp() });
 
   for (const category of DEFAULT_CATEGORIES) {
     batch.set(doc(categoriesRef, category.id), {

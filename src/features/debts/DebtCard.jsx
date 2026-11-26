@@ -32,9 +32,14 @@ export function DebtCard({ debt, person, onWhatsApp }) {
           <p className="mt-1 mb-0 text-sm">Jatuh tempo: {formatDate(debt.dueDate)}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link className="no-underline" to={`/debts/${debt.id}`}>
-            <SketchButton variant="secondary">Detail</SketchButton>
-          </Link>
+          <SketchButton
+            as={Link}
+            className="no-underline"
+            to={`/debts/${debt.id}`}
+            variant="secondary"
+          >
+            Detail
+          </SketchButton>
           <SketchButton onClick={() => onWhatsApp(debt, person)} variant="secondary">
             WhatsApp
           </SketchButton>

@@ -14,9 +14,9 @@ export function SafeToSpendCard({ summary: { billsDue, error, loading, safe } })
     return (
       <SketchCard role="alert">
         <p className="text-red-dark m-0">{error}</p>
-        <Link className="mt-3 inline-flex no-underline" to="/settings">
-          <SketchButton variant="secondary">Periksa pengaturan</SketchButton>
-        </Link>
+        <SketchButton as={Link} className="mt-3 no-underline" to="/settings" variant="secondary">
+          Periksa pengaturan
+        </SketchButton>
       </SketchCard>
     );
   }
@@ -38,9 +38,9 @@ export function SafeToSpendCard({ summary: { billsDue, error, loading, safe } })
             gajian.
           </p>
         </div>
-        <Link className="inline-flex no-underline" to="/settings">
-          <SketchButton variant="secondary">Atur</SketchButton>
-        </Link>
+        <SketchButton as={Link} className="no-underline" to="/settings" variant="secondary">
+          Atur
+        </SketchButton>
       </div>
 
       <div className="mt-4 grid gap-1 text-sm">

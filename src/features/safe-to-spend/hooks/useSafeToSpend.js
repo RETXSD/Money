@@ -6,12 +6,14 @@ import { getUpcomingFixedBills, sumVariableExpensesToday } from '../safeToSpendM
 import { getCycle } from '../../../shared/utils/dates.js';
 import { DEFAULT_PAYDAY_DAY } from '../../../shared/constants/budget.js';
 import { useDebts } from '../../debts/hooks/useDebts.js';
+import { usePeople } from '../../debts/hooks/usePeople.js';
 
 export function useSafeToSpend(uid) {
   const today = new Date();
   const settings = useBudgetSettings(uid);
   const fixedBills = useFixedBills(uid);
   const debts = useDebts(uid);
+  const people = usePeople(uid);
   const paydayDay = settings.data?.paydayDay || DEFAULT_PAYDAY_DAY;
   const cycle = getCycle(today, paydayDay);
   const cycleTransactions = useTransactions(uid, {
@@ -25,6 +27,13 @@ export function useSafeToSpend(uid) {
     categoryId: '',
   });
   const billsDue = getUpcomingFixedBills({ fixedBills: fixedBills.data, today, cycle });
+  const personById = new Map(people.data.map((person) => [person.id, person]));
+  const upcomingDebts = debts.data
+    .filter(
+      (debt) => debt.status === 'open' && debt.dueDate instanceof Date && debt.dueDate <= cycle.end,
+    )
+    .map((debt) => ({ ...debt, personName: personById.get(debt.personId)?.name || 'Teman' }))
+    .sort((left, right) => left.dueDate - right.dueDate);
   const balance =
     (settings.data?.balanceBase || 0) +
     balanceTransactions.data.reduce(
@@ -44,6 +53,7 @@ export function useSafeToSpend(uid) {
     settings.error ||
     fixedBills.error ||
     debts.error ||
+    people.error ||
     cycleTransactions.error ||
     balanceTransactions.error;
 
@@ -56,9 +66,11 @@ export function useSafeToSpend(uid) {
       settings.loading ||
       fixedBills.loading ||
       debts.loading ||
+      people.loading ||
       cycleTransactions.loading ||
       balanceTransactions.loading,
     paydayDay,
     safe,
+    upcomingDebts,
   };
 }

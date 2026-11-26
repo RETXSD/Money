@@ -42,20 +42,23 @@ export function PlaceholderPage({ page }) {
               <DoodleIcon className="mt-1 h-9 w-9 shrink-0" name="wallet" />
             </div>
             <Squiggle className="text-ink mt-4" />
-            <Link className="mt-4 inline-flex no-underline" to="/settings">
-              <SketchButton variant="secondary">
-                Atur dompet <DoodleIcon className="ml-2 inline h-5 w-5 align-middle" name="arrow" />
-              </SketchButton>
-            </Link>
+            <SketchButton
+              as={Link}
+              className="mt-4 no-underline"
+              to="/settings"
+              variant="secondary"
+            >
+              Atur dompet <DoodleIcon className="ml-2 inline h-5 w-5 align-middle" name="arrow" />
+            </SketchButton>
           </SketchCard>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <SketchCard>
               <h2 className="showcase-title">Mulai catat</h2>
               <p className="mt-0 mb-4">Transaksi pertamamu bikin ringkasan uang jadi berguna.</p>
-              <Link className="inline-flex no-underline" to="/transactions">
-                <SketchButton>Tambah transaksi</SketchButton>
-              </Link>
+              <SketchButton as={Link} className="no-underline" to="/transactions">
+                Tambah transaksi
+              </SketchButton>
             </SketchCard>
             <SketchCard>
               <div className="flex items-center gap-2">
@@ -80,9 +83,9 @@ export function PlaceholderPage({ page }) {
             pencatatanmu tetap sederhana dan jelas.
           </p>
           <div className="mt-5 flex justify-center">
-            <Link className="no-underline" to="/">
-              <SketchButton variant="secondary">Kembali ke beranda</SketchButton>
-            </Link>
+            <SketchButton as={Link} className="no-underline" to="/" variant="secondary">
+              Kembali ke beranda
+            </SketchButton>
           </div>
         </SketchCard>
       )}

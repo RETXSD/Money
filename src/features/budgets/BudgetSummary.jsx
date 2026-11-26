@@ -35,9 +35,9 @@ export function BudgetSummary({ summary, compact = false }) {
           icon="chart"
           title="Atur anggaran pertamamu"
         >
-          <Link className="no-underline" to="/budgets">
-            <SketchButton>Tambah anggaran</SketchButton>
-          </Link>
+          <SketchButton as={Link} className="no-underline" to="/budgets">
+            Tambah anggaran
+          </SketchButton>
         </EmptyState>
       ) : null}
     </div>
