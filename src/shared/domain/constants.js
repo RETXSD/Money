@@ -1,0 +1,12 @@
+export const DEFAULT_PAYDAY_DAY = 25;
+export const MIN_PAYDAY_DAY = 1;
+export const MAX_PAYDAY_DAY = 31;
+export const MIN_AGE = 13;
+export const SENIOR_HONORIFIC_AGE = 45;
+export const MILLISECONDS_PER_DAY = 86_400_000;
+export const NOTIFICATION_SLOTS = ['morning', 'noon', 'evening'];
+export const DEFAULT_NOTIFICATION_HOURS = { morning: 7, noon: 12, evening: 18 };
+export const MAX_NOTIFICATION_TOKENS = 5;
+export const NOTIFICATION_BUDGET_WARNING_PERCENT = 90;
+export const MORNING_DUE_DAYS = 1;
+export const EVENING_DEBT_DUE_DAYS = 3;

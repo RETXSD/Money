@@ -27,4 +27,10 @@ export default [
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
   },
+  {
+    files: ['public/firebase-messaging-sw.js'],
+    languageOptions: {
+      globals: { ...globals.serviceworker, firebase: 'readonly' },
+    },
+  },
 ];

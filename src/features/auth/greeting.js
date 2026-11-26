@@ -1,12 +1,7 @@
-import { SENIOR_HONORIFIC_AGE } from '../../shared/constants/profile.js';
 import { calculateAge } from '../../shared/utils/dates.js';
+import { getHonorific } from '../../shared/domain/honorific.js';
 
-export function getHonorific(gender, age) {
-  const isSenior = age >= SENIOR_HONORIFIC_AGE;
-  if (gender === 'female') return isSenior ? 'Ibu' : 'Mbak';
-  if (gender === 'male') return isSenior ? 'Bapak' : 'Mas';
-  return '';
-}
+export { getHonorific } from '../../shared/domain/honorific.js';
 
 export function getGreeting(profile, now) {
   if (!profile || !(now instanceof Date) || Number.isNaN(now.getTime())) return 'Halo, teman';

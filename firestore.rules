@@ -121,5 +121,38 @@ service cloud.firestore {
             || (id == 'account' && validAccountSettings(request.resource.data)));
       }
     }
+
+    function validNotificationSlot(slot) {
+      return slot is map
+        && slot.keys().hasAll(['enabled', 'hour'])
+        && slot.keys().hasOnly(['enabled', 'hour'])
+        && slot.enabled is bool
+        && slot.hour is int
+        && slot.hour >= 0
+        && slot.hour <= 23;
+    }
+
+    function validNotificationSubscription(d) {
+      return d.enabled is bool
+        && d.hideAmounts is bool
+        && d.timezone is string
+        && d.timezone.size() >= 1
+        && d.timezone.size() <= 80
+        && d.slots is map
+        && d.slots.keys().hasAll(['morning', 'noon', 'evening'])
+        && d.slots.keys().hasOnly(['morning', 'noon', 'evening'])
+        && validNotificationSlot(d.slots.morning)
+        && validNotificationSlot(d.slots.noon)
+        && validNotificationSlot(d.slots.evening)
+        && d.fcmTokens is list
+        && d.fcmTokens.size() <= 5
+        && d.updatedAt is timestamp;
+    }
+
+    match /notificationSubscriptions/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid)
+        && validNotificationSubscription(request.resource.data);
+    }
   }
 }

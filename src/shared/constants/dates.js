@@ -1,1 +1,1 @@
-export const MILLISECONDS_PER_DAY = 86_400_000;
+export { MILLISECONDS_PER_DAY } from '../domain/constants.js';

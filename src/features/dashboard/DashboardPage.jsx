@@ -9,6 +9,7 @@ import { SafeToSpendCard } from '../safe-to-spend/SafeToSpendCard.jsx';
 import { useSafeToSpend } from '../safe-to-spend/hooks/useSafeToSpend.js';
 import { DashboardUpcoming } from './DashboardUpcoming.jsx';
 import { RecentTransactions } from './RecentTransactions.jsx';
+import { NotificationPromptCard } from '../notifications/components/NotificationPromptCard.jsx';
 
 export function DashboardPage() {
   const { user } = useAuth();
@@ -42,6 +43,7 @@ export function DashboardPage() {
             transactions={budgetSummary.transactions}
           />
         )}
+        <NotificationPromptCard />
       </div>
       <QuickAddDock
         budgetSummary={budgetSummary}

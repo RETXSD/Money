@@ -3,6 +3,7 @@ import { useAuth } from './providers/useAuth.js';
 import { useProfile } from '../features/auth/hooks/useProfile.js';
 import { DoodleIcon } from '../shared/components/DoodleIcon.jsx';
 import { SketchButton } from '../shared/components/SketchButton.jsx';
+import { NotificationsProvider } from '../features/notifications/components/NotificationsProvider.jsx';
 
 const navigation = [
   { to: '/', label: 'Beranda', icon: 'home', end: true },
@@ -21,56 +22,58 @@ export function App() {
   if (isDesign) return <Outlet />;
 
   return (
-    <div className="app-shell">
-      <header className="app-header">
-        <NavLink aria-label="MTRCK beranda" className="brand" to="/">
-          <span className="brand-mark" aria-hidden="true">
-            m
-          </span>
-          <span>MTRCK</span>
-        </NavLink>
-        <div className="header-actions">
-          <span className="header-caption">dompet lebih tenang</span>
-          <NavLink aria-label="Buka profil" className="avatar-link" to="/profile">
-            {profile?.photoURL ? (
-              <img
-                alt=""
-                className="h-full w-full rounded-full object-cover"
-                src={profile.photoURL}
-              />
-            ) : (
-              profile?.displayName?.trim().charAt(0).toUpperCase() || 'A'
-            )}
+    <NotificationsProvider>
+      <div className="app-shell">
+        <header className="app-header">
+          <NavLink aria-label="MTRCK beranda" className="brand" to="/">
+            <span className="brand-mark" aria-hidden="true">
+              m
+            </span>
+            <span>MTRCK</span>
           </NavLink>
-        </div>
-      </header>
+          <div className="header-actions">
+            <span className="header-caption">dompet lebih tenang</span>
+            <NavLink aria-label="Buka profil" className="avatar-link" to="/profile">
+              {profile?.photoURL ? (
+                <img
+                  alt=""
+                  className="h-full w-full rounded-full object-cover"
+                  src={profile.photoURL}
+                />
+              ) : (
+                profile?.displayName?.trim().charAt(0).toUpperCase() || 'A'
+              )}
+            </NavLink>
+          </div>
+        </header>
 
-      <main className="app-main">
-        <Outlet />
-      </main>
+        <main className="app-main">
+          <Outlet />
+        </main>
 
-      <nav aria-label="Navigasi utama" className="bottom-nav">
-        {navigation.map((item) => (
-          <NavLink
-            key={item.to}
-            aria-label={item.label}
-            className={({ isActive }) => `nav-item${isActive ? 'nav-item-active' : ''}`}
-            end={item.end}
-            to={item.to}
+        <nav aria-label="Navigasi utama" className="bottom-nav">
+          {navigation.map((item) => (
+            <NavLink
+              key={item.to}
+              aria-label={item.label}
+              className={({ isActive }) => `nav-item${isActive ? 'nav-item-active' : ''}`}
+              end={item.end}
+              to={item.to}
+            >
+              <DoodleIcon name={item.icon} />
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+          <SketchButton
+            aria-label="Buka pengaturan"
+            className="nav-settings"
+            onClick={() => navigate('/settings')}
+            variant="secondary"
           >
-            <DoodleIcon name={item.icon} />
-            <span>{item.label}</span>
-          </NavLink>
-        ))}
-        <SketchButton
-          aria-label="Buka pengaturan"
-          className="nav-settings"
-          onClick={() => navigate('/settings')}
-          variant="secondary"
-        >
-          <DoodleIcon name="settings" />
-        </SketchButton>
-      </nav>
-    </div>
+            <DoodleIcon name="settings" />
+          </SketchButton>
+        </nav>
+      </div>
+    </NotificationsProvider>
   );
 }

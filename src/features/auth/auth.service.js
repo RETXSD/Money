@@ -9,6 +9,7 @@ import {
   updateProfile as updateAuthProfile,
 } from 'firebase/auth';
 import { firebaseApp } from '../../lib/firebase.js';
+import { removeNotificationToken } from '../notifications/notification.service.js';
 
 const auth = getAuth(firebaseApp);
 
@@ -32,6 +33,14 @@ export async function registerWithEmail(email, password, displayName) {
 }
 
 export async function signOutUser() {
+  const uid = auth.currentUser?.uid;
+  if (uid) {
+    try {
+      await removeNotificationToken(uid);
+    } catch {
+      // Logging out must still work when a notification token cannot be removed.
+    }
+  }
   return signOut(auth);
 }
 

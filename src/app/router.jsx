@@ -13,6 +13,7 @@ import { DashboardPage } from '../features/dashboard/DashboardPage.jsx';
 import { BudgetPage } from '../features/budgets/BudgetPage.jsx';
 import { DebtsPage } from '../features/debts/DebtsPage.jsx';
 import { DebtDetailPage } from '../features/debts/DebtDetailPage.jsx';
+import { NotificationSettingsPage } from '../features/notifications/components/NotificationSettingsPage.jsx';
 
 const appRoutes = [
   { index: true, element: <DashboardPage /> },
@@ -22,6 +23,7 @@ const appRoutes = [
   { path: 'debts/:id', element: <DebtDetailPage /> },
   { path: 'profile', element: <ProfilePage /> },
   { path: 'settings/categories', element: <CategoriesPage /> },
+  { path: 'settings/notifications', element: <NotificationSettingsPage /> },
   { path: 'settings/*', element: <SettingsPage /> },
 ];
 

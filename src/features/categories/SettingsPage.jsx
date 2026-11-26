@@ -48,6 +48,18 @@ export function SettingsPage() {
         </SketchButton>
       </SketchCard>
       <SketchCard>
+        <h2 className="showcase-title">Pengingat harian</h2>
+        <p className="mt-0">Atur waktu pengingat dan pilih apakah nominal ditampilkan.</p>
+        <SketchButton
+          as={Link}
+          className="no-underline"
+          to="/settings/notifications"
+          variant="secondary"
+        >
+          Atur notifikasi
+        </SketchButton>
+      </SketchCard>
+      <SketchCard>
         <h2 className="showcase-title">Siklus gajian</h2>
         {settings.loading ? (
           <p role="status">Memuat pengaturan…</p>

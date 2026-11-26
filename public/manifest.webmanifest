@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "MTRCK — Dompet lebih tenang",
+  "short_name": "MTRCK",
+  "description": "Catat uang dengan cara yang lebih manusiawi.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFDF7",
+  "theme_color": "#FFD93D",
+  "icons": [
+    {
+      "src": "/icons/mtrck-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/mtrck-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

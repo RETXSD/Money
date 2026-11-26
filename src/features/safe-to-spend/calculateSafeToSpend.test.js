@@ -117,6 +117,13 @@ describe('sumDebtsDue', () => {
             dueDate: new Date(2026, 11, 1),
           },
           {
+            amount: 20000,
+            paidAmount: 0,
+            direction: 'i_owe',
+            status: 'open',
+            dueDate: new Date(2026, 11, 25, 12),
+          },
+          {
             amount: 200000,
             paidAmount: 0,
             direction: 'owed_to_me',
@@ -134,6 +141,6 @@ describe('sumDebtsDue', () => {
         ],
         new Date(2026, 11, 25),
       ),
-    ).toBe(75000);
+    ).toBe(95000);
   });
 });

@@ -1,2 +1,1 @@
-export const MIN_AGE = 13;
-export const SENIOR_HONORIFIC_AGE = 45;
+export { MIN_AGE, SENIOR_HONORIFIC_AGE } from '../domain/constants.js';
